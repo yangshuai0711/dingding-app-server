@@ -1,0 +1,118 @@
+#set($layout = "layout/null.vm")
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>***平台 | 控制面板</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <link href="http://www.360buy.com/favicon.ico" rel="shortcut icon">
+  <link type="text/css" href="#springUrl('')/static/styles/base.css" rel="stylesheet"/>
+  <link type="text/css" href="#springUrl('')/static/styles/page.cp.css" rel="stylesheet"/>
+  <link type="text/css" href="#springUrl('')/static/styles/icon.css" rel="stylesheet"/>
+  <link type="text/css" href="#springUrl('')/static/widgets/mpanel/styles/mpanel.css" rel="stylesheet"/>
+  <link type="text/css" href="#springUrl('')/static/widgets/artDialog/skins/blue.css" rel="stylesheet"/>
+  <style type="text/css">
+    .chart-panel{
+      height: 360px;width: 450px; float:left;
+      margin: 5px 12px 5px 0px;
+      border-radius: 4px;
+      color: #636E7B;
+    }
+    .chart-panel .mpanel-body{
+      height: 320px;width: 450px;
+    }
+    .mpanel.chart-panel .mpanel-header, .mpanel div.mpanel-header{
+      box-shadow: none;
+      font-weight: normal;
+    }
+    .mpanel.chart-panel .mpanel-header h4{
+      color: #636E7B;
+      line-height: 40px;
+    }
+    .chart-panel .rate-up{
+      color: green;
+    }
+    .chart-panel .rate-down{
+      color: #ff0000;
+    }
+    .chart-panel .chart-label{
+      font-size: 10pt;padding:2px;
+    }
+    .chart-panel .mpanel-body .no-data {
+      font-size: 20px;
+      margin: 130px 0 0 184px;
+    }
+    .chart-panel .header-total{
+      margin: 60px 0 0;
+      position: absolute;
+      z-index: 2;
+    }
+    .chart-panel .header-total .total{
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+<div class="base-page-content">
+  <div class="crumbs">
+    <ol>
+      <li class="cur"><a href="javascript:void(0);"><span class="icon-home"></span>控制面板</a></li>
+    </ol>
+  </div>
+  <div id="orderCountChart" class="mpanel chart-panel">
+    <div class="mpanel-header">
+      <h4>订单量统计</h4>
+      <div class="header-total">
+      </div>
+    </div>
+    <div class="mpanel-body" id="orderCountChartCanvas">
+    </div>
+  </div>
+  <div id="orderMoneyChart" class="mpanel chart-panel">
+    <div class="mpanel-header">
+      <h4>下单金额统计</h4>
+      <div class="header-total">
+      </div>
+    </div>
+    <div class="mpanel-body" id="orderMoneyChartCanvas">
+    </div>
+  </div>
+  <div id="localOneHourOrderCountChart" class="mpanel chart-panel">
+    <div class="mpanel-header">
+      <h4>本地1小时订单量统计</h4>
+      <div class="header-total">
+      </div>
+    </div>
+    <div class="mpanel-body" id="localOneHourOrderCountChartCanvas">
+    </div>
+  </div>
+  <div id="localOneHourOrderMoneyChart" class="mpanel chart-panel">
+    <div class="mpanel-header">
+      <h4>本地1小时订单金额统计</h4>
+      <div class="header-total">
+      </div>
+    </div>
+    <div class="mpanel-body" id="localOneHourOrderMoneyChartCanvas">
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="#springUrl('')/static/scripts/base/jquery.js"></script>
+<script type="text/javascript" src="#springUrl('')/static/scripts/common/commons.cp.js"></script>
+<script type="text/javascript" src="#springUrl('')/static/widgets/artDialog/jquery.artDialog.js"></script>
+<script type="text/javascript" src="#springUrl('')/static/scripts/blockui/jquery.blockUI.cp.js"></script>
+<script type="text/javascript" src="#springUrl('')/static/widgets/flot/jquery.flot.min.js"></script>
+<script type="text/javascript" src="#springUrl('')/static/widgets/flot/jquery.flot.pie.min.js"></script>
+<!--[if lte IE 7]>
+<script type="text/javascript" src="#springUrl('')/static/scripts/base/json2.js"></script>
+<script type="text/javascript" src="#springUrl('')/static/widgets/flot/jquery.flot.canvas.js"></script>
+<![endif]-->
+<script type="text/javascript">
+  Commons.absoluteUrl = function(url){
+    return "#springUrl('')" + url;
+  }
+</script>
+<script type="text/javascript" src="#springUrl('')/static/scripts/business/dashboard.js?v=20141010"></script>
+</body>
+</html>

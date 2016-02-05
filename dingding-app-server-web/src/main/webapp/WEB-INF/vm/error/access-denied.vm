@@ -1,0 +1,25 @@
+#set($layout = "layout/null.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+  <title>访问被拒绝</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <link type="text/css" href="#springUrl('')/static/styles/base.css" rel="stylesheet"/>
+  <link type="text/css" href="#springUrl('')/static/styles/page.css" rel="stylesheet"/>
+  <link type="text/css" href="#springUrl('')/static/styles/error.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="error-container">
+  <h1><strong>访问被拒绝</strong></h1>
+  <p>
+    访问被拒绝，因无访问权限，请先联系管理员申请权限！
+  </p>
+  <div class="btnbar">
+    <button type="button" class="btn btn-danger" onclick="history.back()">
+      &lt;&nbsp;返回
+    </button>
+  </div>
+</div>
+</body>
+</html> 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=GBK">
+  <title>Panel����</title>
+  <link rel="stylesheet" type="text/css" href="styles/mpanel.css" />
+  <style type="text/css">
+	ol li {
+		line-height: 26px;
+	}
+  </style>
+  <script type="text/javascript" src="../scripts/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="scripts/mpanel.js"></script>
+  <!-- Compliance patch for Microsoft browsers -->
+  <!--[if lt IE 9]>
+  <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+  <![endif]-->
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$("#panel").panel();
+	});
+  </script>
+</head>
+<body>
+<div id="panel" class="ui-panel">
+  <div class="panel-header">
+	<h3>Panel����</h3>
+  </div>
+  <div class="panel-body">
+	<ol>
+		<li><a href="simple_panel.html">��Panel</a></li>
+		<li><a href="tab_panel.html">Tab Panel</a></li>
+	</ol>
+  </div>
+</div>
+</body>
+</html>

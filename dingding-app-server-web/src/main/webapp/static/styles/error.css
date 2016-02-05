@@ -1,0 +1,18 @@
+.error-container {
+  margin: 80px auto 0;
+  position: relative;
+  text-align: center;
+}
+.error-container h1 {
+  color: #000;
+  font-size: 60px;
+  margin: 0 0 10px;
+}
+.error-container p {
+  color: #333;
+  font-size: 21px;
+  line-height: 1.4;
+}
+.error-container .btnbar{
+  margin: 20px 0;
+}

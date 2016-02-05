@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>模块页面样例</title>
+  <link type="text/css" href="../../styles/base.css" rel="stylesheet"/>
+  <link type="text/css" href="../easyui/styles/easyui.css" rel="stylesheet"/>
+  <link type="text/css" href="../artDialog/skins/blue.css" rel="stylesheet"/>
+  <link type="text/css" href="../../styles/page.css" rel="stylesheet"/>
+  <link type="text/css" href="../../styles/icon.css" rel="stylesheet"/>
+  <link type="text/css" href="../poshytip/tip-yellowsimple/tip-yellowsimple.css" rel="stylesheet"/>
+  <link type="text/css" href="../../styles/widgets.ext.css" rel="stylesheet"/>
+  <script type="text/javascript" src="../../scripts/base/jquery.js"></script>
+  <script type="text/javascript" src="../easyui/jquery.easyui.cp.js"></script>
+  <script type="text/javascript" src="../artDialog/jquery.artDialog.js"></script>
+  <script type="text/javascript" src="../artDialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" src="../poshytip/jquery.poshytip.min.js"></script>
+  <script type="text/javascript" src="../../scripts/common/commons.cp.js"></script>
+</head>
+<body>
+<div class="base-page-content">
+  <div class="crumbs">
+    <ol>
+      <li class="pre"><a href="index.html"><span class="icon-home"></span>首页<i></i></a></li>
+      <li class="cur"><a href="javascript:void(0);">功能模块</a></li>
+    </ol>
+  </div>
+  <div class="search">
+    <form id="searchForm">
+      <table>
+        <tr>
+          <td class="form-label" style="width: 90px;"><label class="required">查询条件1</label></td>
+          <td class="form-text"><input type="text" name="param1" id="param1"/></td>
+          <td class="form-label" style="width: 90px;"><label>查询条件2</label></td>
+          <td class="form-text"><input type="text" name="param2"/></td>
+          <td class="form-label" style="width: 90px;"><label>查询条件3</label></td>
+          <td class="form-text">
+            <span class="checkbox-group">
+              <span class="checkbox-group-item"><input type="checkbox" name="param1"/>全部</span>
+              <span class="checkbox-group-item"><input type="checkbox" name="param1"/>待处理</span>
+              <span class="checkbox-group-item"><input type="checkbox" name="param1"/>处理中</span>
+              <span class="checkbox-group-item"><input type="checkbox" name="param1"/>已完成</span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="form-label" style="width: 90px;"><label>查询条件4</label></td>
+          <td class="form-text">
+            <span class="radio-group">
+              <span class="radio-group-item"><input type="radio" name="param1"/>全部</span>
+              <span class="radio-group-item"><input type="radio" name="param1"/>待处理</span>
+              <span class="radio-group-item"><input type="radio" name="param1"/>处理中</span>
+              <span class="radio-group-item"><input type="radio" name="param1"/>已完成</span>
+            </span>
+          </td>
+          <td class="form-label" style="width: 90px;"><label class="required">查询条件5</label></td>
+          <td class="form-text">
+            <select name="param5" id="param5">
+              <option value="">请选择</option>
+              <option value="0">好</option>
+              <option value="1">坏</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6" class="btn-container fullrow">
+            <button class="btn btn-primary"><i class="icon-white icon-search"></i>查询</button>
+            <button class="btn" type="reset"><i class="icon-reset"></i>重置</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div id="grid"></div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function () {
+    function loadGrid() {
+      $('#grid').datagrid({
+        height: Commons.config.datagrid_base_height3,
+        nowrap: true,
+        striped: true,
+        collapsible: true,
+        url: './datagrid_data1.json',
+        method: 'post',
+        sortName: 'ownerNo',
+        sortOrder: 'desc',
+        remoteSort: true,
+        loadMsg: '数据加载中......',
+        columns: [
+          [
+            {field:'productid', checkbox:true, checked:false, align: 'center'},
+            {field: 'itemid', title: '编号', hidden: true},
+            {field: 'productname', title: '商家编号', width: 80},
+            {field: 'listprice', title: '公司名称', width: 80},
+            {field: 'unitcost', title: '联系人姓名', width: 80},
+            {field: 'attr1', title: '联系人电话', width: 80},
+            {field: 'status', title: '商家状态', width: 60,
+              formatter: function (value, rowData, rowIndex) {
+                if ("0" == value) {
+                  return "<span class='badge badge-info'>初始</span>";
+                } else if ("1" == value) {
+                  return "<span class='badge badge-success'>启用</span>";
+                } else if ("2" == value) {
+                  return "<span class='badge'>停用</span>";
+                }
+              }
+            },
+            {field: 'remark', title: '备注', width: 160},
+            {field: 'op', title: '操作', width: 100,
+              formatter: function (value, rowData, rowIndex) {
+                return '<div class="grid-cell-opsets">' +
+                        '<a class="l-btn l-btn-plain" onclick="onDelete()"><i class="icon-trash"></i>删除</a>' +
+                        '<a class="l-btn l-btn-plain" onclick="onUpdate()"><i class="icon-pencil"></i>修改</a>' +
+                        '<a class="l-btn l-btn-plain" onclick="onView()"><i class="icon-view"></i>查看</a></div>'
+              }
+            }
+          ]
+        ],
+        pagination: true,
+        toolbar: [
+          {
+            text: '<i class="icon-plus"></i>新增',
+            handler: onAdd
+          },
+          {
+            text: '<i class="icon-pencil"></i>修改',
+            handler: onUpdate
+          },
+          {
+            text: '<i class="icon-minus"></i>删除',
+            handler: onDelete
+          }
+        ],
+        onDblClickRow: onUpdate
+      });
+      $('#grid').datagrid("addToolbarItem", ['->', {html: '<span class="label label-info">列表操作说明(双击行记录进行修改)</span>'}])
+    }
+    loadGrid();
+  });
+  function onAdd() {
+    var dialogWidth = $(window).width() > 820 ? 820 : Commons.getModalDialogWidth();
+    var dialogHeight = $(window).height() > 200 ? 200 : Commons.getModalDialogHeight();
+    Commons.showModalDialog({url: "./input.html", title: "新增***", width: dialogWidth, height: dialogHeight});
+  }
+  function onUpdate(a, b) {
+    var dialogWidth = $(window).width() > 820 ? 820 : Commons.getModalDialogWidth();
+    var dialogHeight = $(window).height() > 200 ? 200 : Commons.getModalDialogHeight();
+    Commons.showModalDialog({url: "./input.html", title: "修改***", width: dialogWidth, height: dialogHeight});
+  }
+  function onDelete() {
+    Commons.confirm({content: '确认删除***，删除后数据无法恢复？', onConfirm: function(){
+      //提交删除请求
+    }});
+  }
+  function onView() {
+    alert("查看详细信息");
+  }
+</script>
+</body>
+</html>

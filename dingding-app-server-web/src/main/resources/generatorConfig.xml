@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<!-- create by WangYandong @2014年05月27日 -->
+<generatorConfiguration>
+	<!-- MBG mybatis generator -->
+	<properties resource="generatorConfig.properties" />
+	<!-- domainObjectname : The base name from which generated object names will be generated.-->
+	<classPathEntry location="${classPath}" />
+	<!-- 
+		defaultModelType:用来定义生成模型类型策略
+		1．conditional：默认策略，为每个表生成一个Model Class
+		2．flat：生成一个Model Class，即这个类将包含所有表中字段
+		3．hierarchical：生成的类之间继承关系
+	 -->
+	<!-- targetRuntime ：用于指定运行时目标生成的代码，将生成对象兼容MyBatis版本3.0以上版本，JDK1.5以上版本 -->
+	<!-- targetRuntime : This property is used to specify the runtime target for generated code.default is "MyBatis3"--> 	
+	<context id="mybatisGenerator" targetRuntime="MyBatis3" defaultModelType="conditional">
+		<property name="suppressTypeWarnings" value="true" />
+		<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+		<!-- 去掉自动生成的注释 -->
+	    <commentGenerator>
+	    	<property name="suppressAllComments" value="true" />
+	    	<!-- suppressDate：默认值为false，用于指定在生成的注释是否将包括MBG时间戳 -->
+	    	<property name="suppressDate" value="true" />
+	    </commentGenerator>
+		<!-- 生成mapper映射文件路径配置，如果spring开启自动扫描mapper文件，无需开启 -->
+		<!-- 
+		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
+			<property name="targetPackage" value="${targetProject}/src/main/resources" />
+			<property name="targetProject" value="${targetProject}" />
+		</plugin>
+		-->
+		<!-- 数据库连接信息 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="${connectionURL}" userId="${userId}"
+			password="${password}" />
+		<!-- 类型解析器 -->
+		<!--When the property is true, the Java type resolver will always use java.math.BigDecimal if the database column is of type DECIMAL or NUMERIC.-->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- java po配置 -->
+		<!-- It is used to define properties of the Java model generator. -->
+		<javaModelGenerator targetPackage="${modelPackage}" targetProject="${targetProject}/src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!-- mybatis mapper配置 -->
+		<!-- It is used to define properties of the SQL map(.xml) generator. -->
+		<sqlMapGenerator targetPackage="mapper" targetProject="${targetProject}/src/main/resources">
+			<!-- If this property is true, the generated SQL Map for the table will be placed in the package "mapper.myschema" -->
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- mybatis DAO配置 -->
+		<!-- It is used to define properties of the Java client generator. -->
+		<!-- XMLMAPPER : The interfaces will be dependent on generated XML mapper files.-->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="${daoMapperPackage}" targetProject="${targetProject}/src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		<!-- 表相关配置信息，只需要在正面添加表即可 -->
+		<table schema="${schema}" tableName="login_account" domainObjectName="LoginAccount"/>
+			<!--enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false"-->
+	</context>
+</generatorConfiguration>

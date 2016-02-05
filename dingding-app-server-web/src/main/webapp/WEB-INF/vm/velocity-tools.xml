@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolbox>
+  <!--<tool>-->
+    <!--<key>stringEscapeUtils</key>-->
+    <!--<class>org.apache.commons.lang.StringEscapeUtils</class>-->
+  <!--</tool>-->
+  <!--<tool>-->
+    <!--<key>dateFormatUtils</key>-->
+    <!--<scope>application</scope>-->
+    <!--<class>com.jd.o2o.commons.utils.DateFormatUtils</class>-->
+  <!--</tool>-->
+</toolbox>

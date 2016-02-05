@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>通知样例</title>
+  <link type="text/css" href="../../styles/base.css" rel="stylesheet"/>
+  <link type="text/css" href="../../styles/page.css" rel="stylesheet"/>
+  <link type="text/css" href="../../styles/icon.css" rel="stylesheet"/>
+  <link type="text/css" href="../artDialog/skins/blue.css" rel="stylesheet"/>
+  <link type="text/css" href="../msgbox/styles/msgbox.css" rel="stylesheet"/>
+  <script type="text/javascript" src="../../scripts/base/jquery.js"></script>
+  <script type="text/javascript" src="../artDialog/jquery.artDialog.js"></script>
+  <script type="text/javascript" src="../msgbox/scripts/msgbox.js"></script>
+  <script type="text/javascript" src="../../scripts/common/commons.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".close").click(function(){
+        $(this).parent().addClass("hidden");
+      });
+    });
+
+    function createDaymicMessageBox (msgtype) {
+      var showTitleEls = document.getElementsByName("showTitle");
+      var isGlobalEls = document.getElementsByName("isGlobal");
+      var globalNum = 0;
+      for (var i = 0; i < isGlobalEls.length; i++) {
+        if (isGlobalEls[i].checked) {
+          globalNum += parseInt(isGlobalEls[i].value);
+          break;
+        }
+      }
+      var showTitleNum = 0;
+      for (var i = 0; i < showTitleEls.length; i++) {
+        if (showTitleEls[i].checked) {
+          showTitleNum += parseInt(showTitleEls[i].value);
+          break;
+        }
+      }
+      var title = showTitleNum == 0 ? '提示标题' : null;
+      if (globalNum == 0) {
+        $().showGlobalMsg({title: title, type: msgtype, content: '请求成功.', closeable: true});
+      } else {
+        $("#msgbox-parent").showmsg({title: title, type: msgtype, content: '消息体', closeable: true});
+      }
+    }
+  </script>
+</head>
+<body>
+<div class="base-page-content">
+  <div class="crumbs">
+    <ol>
+      <li class="pre"><a href="index.html"><span class="icon-home"></span>首页<i></i></a></li>
+      <li class="cur"><a href="javascript:void(0);">消息通知</a></li>
+    </ol>
+  </div>
+  <div class="box">
+    <div class="box-heading">
+      <h3>弹出通知</h3>
+    </div>
+    <div class="box-content">
+      <button class="btn" onclick="Commons.showInfo('Hello')">Information</button>
+      <button class="btn" onclick="Commons.showWarn('Hello')">Warning</button>
+      <button class="btn" onclick="Commons.showSuccess('Hello')">Success</button>
+      <button class="btn" onclick="Commons.showError('Hello')">Error</button>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="box-heading">
+      <h3>页面内部通知</h3>
+    </div>
+    <div class="box-content">
+      <div class="msgbox attention global">
+        <a class="close" title="Close this msgbox" href="#">
+          <i class="icon-close"></i>
+        </a>
+
+        <div class="content"> This is a Content Box. You can put whatever you want in it. By the way, you can close this
+          msgbox with the top-right cross.
+        </div>
+      </div>
+      <div class="msgbox attention png_bg">
+        <a class="close" title="Close this msgbox" href="#">
+          <i class="icon-close"></i>
+        </a>
+
+        <div> This is a Content Box. You can put whatever you want in it. By the way, you can close this msgbox with the
+          top-right cross.
+        </div>
+      </div>
+      <div class="msgbox information png_bg">
+        <a class="close" title="Close this msgbox" href="#">
+          <i class="icon-close"></i>
+        </a>
+
+        <div> Information msgbox. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate, sapien quis
+          fermentum luctus, libero.
+        </div>
+      </div>
+      <div class="msgbox success png_bg">
+        <a class="close" title="Close this msgbox" href="#">
+          <i class="icon-close"></i>
+        </a>
+
+        <div> Success msgbox. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate, sapien quis
+          fermentum
+          luctus, libero.
+        </div>
+      </div>
+      <div class="msgbox error png_bg">
+        <a class="close" title="Close this msgbox" href="#">
+          <i class="icon-close"></i>
+        </a>
+
+        <div> Error msgbox. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vulputate, sapien quis
+          fermentum
+          luctus, libero.
+        </div>
+      </div>
+      <h3>动态信息提示框</h3>
+      <hr size="1"/>
+      <p>
+        全局提示框：<input type="radio" name="isGlobal"  value="0"/>是<input type="radio"  name="isGlobal"  value="1" checked="checked"/>否
+      </p>
+      <p>
+        显示标题：<input type="radio"  name="showTitle" value="0" checked="checked"/>是<input type="radio"  name="showTitle"  value="1"/>否
+      </p>
+      <p>
+        <input type="button" class="btn" onclick="createDaymicMessageBox(this.value)" value="information"/>
+        <input type="button" class="btn" onclick="createDaymicMessageBox(this.value)" value="success"/>
+        <input type="button" class="btn" onclick="createDaymicMessageBox(this.value)" value="attention"/>
+        <input type="button" class="btn" onclick="createDaymicMessageBox(this.value)" value="error"/>
+      </p>
+      <div id="msgbox-parent" style="border: 1px solid; height: 300px; padding: 5 5 5 5px;"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

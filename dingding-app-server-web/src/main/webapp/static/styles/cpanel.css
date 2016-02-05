@@ -1,0 +1,86 @@
+.cpanel .collapse h3 {
+  background-color: #F0F0F0;
+}
+/* -- CONTROL PANEL STYLES ----------------------------- */
+.cpanel {
+  padding-right: 10px;
+}
+.cpanel div.image {
+  text-align:center;
+  margin-right:15px;
+  float:left;
+  /*margin-bottom:5px;*/
+}
+
+.cpanel div.image a {
+  background-color:#FFFFFF;
+  background-position:-30px;
+  display:block;
+  float:left;
+  height:90px;
+  width:95px;
+  color:#565656;
+  vertical-align:middle;
+  text-decoration:none;
+  border:1px solid #CCC;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  border-radius:5px;
+  -webkit-transition-property:background-position, 0 0;
+  -moz-transition-property:background-position, 0 0;
+  -webkit-transition-duration:0.8s;
+  -moz-transition-duration:0.8s;
+  text-align: center;
+  margin: 0 5px 0 0;
+}
+
+.cpanel div.image a:hover,.cpanel div.image a:focus,.cpanel div.image a:active {
+  background-position:0;
+  -webkit-border-bottom-left-radius:50% 20px;
+  -moz-border-radius-bottomleft:50% 20px;
+  border-bottom-left-radius:50% 20px;
+  -webkit-box-shadow:-5px 10px 5px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow:-5px 10px 5px rgba(0, 0, 0, 0.25);
+  box-shadow:-5px 10px 5px rgba(0, 0, 0, 0.25);
+  position:relative;
+  z-index:10;
+}
+
+.cpanel img {
+  margin:0 auto;
+  padding:10px 0;
+}
+
+.cpanel span {
+  display:block;
+  text-align:center;
+}
+
+.image-group {
+  display: block;
+  overflow: auto;
+  clear: both;
+  margin:0;
+  padding-top:8px;
+  padding-left: 18px;
+}
+
+div#position-image.pane-sliders .image {
+  background:#fff;
+}
+
+div#panel-container {
+  display: block;
+  padding: 15px 15px 0;
+  overflow: auto;
+}
+
+div.cpanel-left {
+  width:52%;
+  float:left;
+}
+
+div.cpanel-right {
+  width:47%;
+  float:right;
+}

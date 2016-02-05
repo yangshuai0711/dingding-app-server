@@ -1,0 +1,39 @@
+.btn{
+  padding: 3px 6px 3px 3px;
+}
+.input-append .btn{
+  margin-left: -10px;
+  margin-top: 1px;
+}
+select option{
+  padding:5px;
+}
+.search .input-append{
+  margin-bottom: inherit;
+}
+.modal-dialog-btnbar .btn {
+  padding: 4px 2px;
+}
+.modal-dialog table.table-input.column2 .text
+, .aui_content table.table-input.column2 .text {
+  width: auto;
+}
+.modal-dialog table.table-input.column2 select.text
+, .aui_content table.table-input.column2 select.text {
+  width: auto;
+}
+.modal-dialog table.table-input.column2 .text.fullrow
+,.aui_content table.table-input.column2 .text.fullrow{
+  width: 89.6%;
+}/*
+.modal-dialog table.table-input.column1 .text
+,.aui_content table.table-input.column1 .text{
+  width: auto;
+}
+.modal-dialog table.table-input.column1 .select
+,.aui_content table.table-input.column1 .select{
+  width: auto;
+}
+.aui_content table.table-input.column1 .text{
+  width: auto;
+}*/

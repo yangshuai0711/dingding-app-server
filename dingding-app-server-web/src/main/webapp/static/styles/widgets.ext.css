@@ -1,0 +1,68 @@
+/**
+* 基础组件样式扩展（覆盖）
+*/
+
+
+/**
+* datagrid相关
+*/
+.datagrid {
+  background: none repeat scroll 0 0 #FFFFFF;
+}
+.datagrid-wrap {
+  border-radius: 2px;
+  border: 1px solid #DDDDDD;
+}
+.datagrid .panel-body, .panel-header {
+  border-color: #DDDDDD;
+}
+.panel-body {
+  border-color: #DDDDDD;
+}
+.datagrid input, .datagrid select {
+  padding: 2px;
+}
+.datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell {
+  line-height: 26px;
+}
+.datagrid-body .datagrid-cell, .datagrid-footer .datagrid-cell a.l-btn{
+  height: auto;
+}
+.datagrid-toolbar-container {/*
+  line-height: 24px;*/
+  padding: 5px;
+}
+a.l-btn {
+  border-radius: 3px;
+}
+.grid-cell-opsets a {
+  padding: 0 5px;
+}
+.layout-split-west {
+  border-right: 5px solid #F0F0F0;
+}
+
+/**
+* artDialog相关
+*/
+.aui_title{
+  text-align: left;
+}/*
+.aui_titleBar{
+  margin-top: -30px;
+  position: absolute;
+  bottom: inherit;
+}
+.ie .aui_titleBar{
+  margin-top: -32px;
+}*/
+.aui_close {
+  margin-right: 5px;
+}
+
+/**
+* tip相关
+*/
+.tip-yellowsimple {
+  z-index: 3000;
+}

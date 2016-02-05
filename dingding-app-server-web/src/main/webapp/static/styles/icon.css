@@ -1,0 +1,110 @@
+[class^="icon-"],
+[class*=" icon-"] {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+  *margin-right: .3em;
+  line-height: 14px;
+  vertical-align: text-top;
+  background: url("images/icons/glyphicons-halflings.png") no-repeat;
+}
+.icon-white {
+  background-image: url("images/icons/glyphicons-halflings-white.png");
+}
+.icon-search {
+  background-position: -48px 0;
+}
+.icon-ok {
+  background-position: -288px 0;
+}
+.icon-user {
+  background-position: -168px 0;
+}
+.icon-cancel {
+  background-position: -312px 0;
+}
+.icon-arrow-left {
+  background-position: -240px -96px;
+}
+.icon-arrow-right {
+  background-position: -264px -96px;
+}
+.icon-refresh {
+  background-position: -240px -24px;
+}
+.icon-repeat, .icon-reset{
+  background-position: -216px -24px;
+}
+.icon-chevron-up {
+  background-position: -288px -120px;
+}
+.icon-chevron-down {
+  background-position: -313px -119px;
+}
+.icon-download-alt {
+  background-position: -96px -24px;
+}
+.icon-cog, .icon-action {
+  background-position: -432px 0;
+}
+.icon-trash {
+  background-position: -456px 0;
+}
+.icon-home {
+  background-position: 0 -24px;
+}
+.icon-time {
+  background-position: -48px -24px;
+}
+.icon-download {
+  background-position: -120px -24px;
+}
+.icon-upload {
+  background-position: -144px -24px;
+}
+.icon-lock {
+  background-position: -287px -24px;
+}
+.icon-print {
+  background-position: -96px -48px;
+}
+.icon-envelope {
+  background-position: -72px 0;
+}
+.icon-list {
+  background-position: -360px -48px;
+}
+.icon-pencil {
+  background-position: 0 -72px;
+}
+.icon-edit {
+  background-position: -96px -72px;
+}
+.icon-plus {
+  background-position: -408px -96px;
+}
+.icon-minus {
+  background-position: -433px -96px;
+}
+.icon-view {
+  background-position: -96px -120px;
+}
+.icon-ok-circle {
+  background-position: -192px -96px;
+}
+.icon-ban-circle {
+  background-position: -216px -96px;
+}
+.icon-check {
+  background-position: -144px -72px;
+}
+[class^="icon-self"],[class*=" icon-self"]{
+  background-position: 0;
+  width: 16px;
+  height: 16px;
+  margin: 0px;
+}
+.icon-self-clear{
+  background:url('images/icons/clear.png') no-repeat;
+}

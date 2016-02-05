@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:saf="http://code.360buy.com/schema/saf"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+            http://code.360buy.com/schema/saf
+            http://code.360buy.com/schema/saf/saf.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<saf:registry id="jdO2ORegistry" protocol="jdZooKeeper" address="${mvn.saf.zookeeper.url}"/>
+    <!-- define protocol -->
+    <saf:protocol id="mydubbo" name="dubbo" port="-1" floatingipfile="/etc/floatingip"/>
+    
+	<!-- 消费服务
+	<saf:reference id="baseAddressService"	interface="com.jd.o2o.address.api.BaseAddressService" 
+	               group="o2o-base-address-test" version="1.0.0" check="false" >
+	</saf:reference>
+    -->
+</beans>

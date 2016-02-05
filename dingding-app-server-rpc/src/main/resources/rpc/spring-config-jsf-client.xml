@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jsf="http://jsf.jd.com/schema/jsf"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://jsf.jd.com/schema/jsf
+        http://jsf.jd.com/schema/jsf/jsf.xsd">
+    <!-- 消费服务 
+    <jsf:consumer id="queryOrderTrackService" interface="com.jd.o2o.ots.core.api.service.query.ordertrack.QueryOrderTrackService"
+                  protocol="jsf" alias="${mvn.jsf.service.alias}" timeout="60000" check="false">
+    </jsf:consumer>
+    -->
+</beans>

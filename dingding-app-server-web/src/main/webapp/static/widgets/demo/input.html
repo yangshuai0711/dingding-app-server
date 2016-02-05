@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link type="text/css" href="../../styles/base.css" rel="stylesheet"/>
+  <link type="text/css" href="../easyui/styles/easyui.css" rel="stylesheet"/>
+  <link type="text/css" href="../artDialog/skins/default.css" rel="stylesheet"/>
+  <link type="text/css" href="../poshytip/tip-yellowsimple/tip-yellowsimple.css" rel="stylesheet"/>
+  <link type="text/css" href="../../styles/page.css" rel="stylesheet"/>
+  <link type="text/css" href="../../styles/icon.css" rel="stylesheet"/>
+  <script type="text/javascript" src="../../scripts/jquery.js"></script>
+  <script type="text/javascript" src="../../scripts/blockui/jquery.blockUI.js"></script>
+  <script type="text/javascript" src="../../scripts/form/jquery.form.js"></script>
+  <script type="text/javascript" src="../../scripts/form/jquery.form.ext.js"></script>
+  <script type="text/javascript" src="../../scripts/form/jquery.validate.js"></script>
+  <script type="text/javascript" src="../../scripts/form/jquery.validate_msg_cn.js"></script>
+  <script type="text/javascript" src="../../scripts/form/jquery.validate.ext.js"></script>
+  <script type="text/javascript" src="../../scripts/metadata/jquery.metadata.js"></script>
+  <script type="text/javascript" src="../poshytip/jquery.poshytip.min.js"></script>
+  <script type="text/javascript" src="../artDialog/jquery.artDialog.js"></script>
+  <script type="text/javascript" src="../artDialog/plugins/iframeTools.js"></script>
+  <script type="text/javascript" src="../../scripts/common/commons.js"></script>
+</head>
+<body class="modal-dialog-body">
+<div id="sellerDetail" class="modal-dialog">
+  <div class="modal-dialog-content form-input">
+    <form id="sellerForm">
+      <table>
+        <tbody>
+        <tr>
+          <td class="form-label"><label class="required" target="sellerNo">商家编号</label></td>
+          <td class="form-text">
+            <input id="sellerNo" type="text" name="sellerNo" class="{required:true,messages:{required:'请输入商家编号'}}"/>
+          </td>
+          <td class="form-label"><label class="required" target="sellerName">公司名称</label></td>
+          <td class="form-text">
+            <input id="sellerName" type="text" name="sellerName" class="{required:true,messages:{required:'请输入公司名称'}}"/>
+          </td>
+          <td class="form-label"><label>公司电话</label></td>
+          <td class="form-text">
+            <input id="phone" type="text" name="phone"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="form-label"><label>公司地址</label></td>
+          <td class="form-text">
+            <input id="addr" type="text" name="addr"/>
+          </td>
+          <td class="form-label"><label>商家类型</label></td>
+          <td class="form-text">
+            <input id="sellerType" type="text" name="sellerType"/>
+          </td>
+          <td class="form-label"><label>公司传真</label></td>
+          <td class="form-text">
+            <input id="fax" type="text" name="fax"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="form-label"><label target="email">公司邮箱</label></td>
+          <td class="form-text">
+            <input id="email" type="text" name="email" class="{email:true}"/>
+          </td>
+          <td class="form-label"><label>备注</label></td>
+          <td class="form-text">
+            <input id="remark" type="text" name="remark"/>
+          </td>
+          <td class="form-label"><label>商家状态</label></td>
+          <td class="form-text">
+            <input id="sellerStatus" type="text" name="sellerStatus"/>
+          </td>
+        </tr>
+        <tr>
+          <td class="form-label"><label>联系人姓名</label></td>
+          <td class="form-text">
+            <input id="contact" type="text" name="contact"/>
+          </td>
+          <td class="form-label"><label target="mobile">联系人电话</label></td>
+          <td class="form-text">
+            <input id="mobile" type="text" name="mobile" class="{tphone:true}"/>
+          </td>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <div class="btn-container modal-dialog-btnbar">
+    <button type="button" class="btn btn-primary" id="saveBtn" onclick=" $('#sellerForm').submit()">
+      <i class="icon-white icon-ok"></i>保存
+    </button>
+    <button type="button" class="btn" onclick="Commons.closeModalDialog();">
+      <i class="icon-cancel"></i>关闭
+    </button>
+  </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+  $(document).ready(function() {
+    setTimeout(function () {
+      $(".modal-dialog-content").css("height", $(window).height() - Commons.config.modal_dialog_btnbar_height1);
+    }, 200);
+    var $validateForm = $("#sellerForm").validate();
+    $validateForm.checkForm();
+    $('#sellerForm').submit(function() {
+      $(this).ajaxSubmit({
+        beforeSubmit: function (formArray, jqForm) {
+          if (!$validateForm.checkForm()) {
+            return false;
+          }
+          Commons.showProcessMsg(Commons.config.default_process_msg);
+          return true;
+        },
+        error: function (e) {
+          Commons.showError(e);
+        },
+        success: function (data, statusText) {
+          Commons.showSuccess("保存成功");
+        },
+        type: 'post',        // 'get' or 'post', override for form's 'method' attribute
+        dataType: 'json',        // 'xml', 'script', or 'json' (expected server response type)
+        resetForm: false,        // reset the form after successful submit
+        iframe: false,             //上传文件时设置true
+        timeout: 180000,
+        complete: function (data) {
+          Commons.hideProcessMsg();
+        }
+      });
+      return false;
+    });
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Properties>
+        <Property name="var.log.level">${mvn.log.level}</Property>
+        <Property name="var.log.path.dir">${mvn.log.path}/${mvn.app.domainName}</Property>
+        <Property name="var.output.pattern">[%-5p %d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%l] %m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="${var.output.pattern}"/>
+        </Console>
+        <RollingRandomAccessFile bufferSize="1024" name="framework-output"
+                                 fileName="${var.log.path.dir}/framework-output.log"
+                                 filePattern="${var.log.path.dir}/framework-output.log.%i">
+            <PatternLayout>
+                <Pattern>${var.output.pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile bufferSize="1024" name="mocoder-output" fileName="${var.log.path.dir}/mocoder-output.log"
+                                 filePattern="${var.log.path.dir}/mocoder-output.log.%i">
+            <PatternLayout>
+                <Pattern>${var.output.pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile bufferSize="1024" name="proj-output" fileName="${var.log.path.dir}/proj-output.log"
+                                 filePattern="${var.log.path.dir}/proj-output.log.%i">
+            <PatternLayout>
+                <Pattern>${var.output.pattern}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="500MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="4"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <AsyncRoot level="debug" includeLocation="true">
+            <AppenderRef ref="stdout"/>
+        </AsyncRoot>
+        <!-- log4spring -->
+        <AsyncLogger name="org.springframework" level="ERROR" includeLocation="true" additivity="false">
+            <AppenderRef ref="framework-output"/>
+        </AsyncLogger>
+        <!-- log4jdbc -->
+        <AsyncLogger name="jdbc.sqltiming" level="INFO" includeLocation="true" additivity="false">
+            <AppenderRef ref="framework-output"/>
+        </AsyncLogger>
+        <!-- log4HibernateValidator -->
+        <AsyncLogger name="org.apache.commons.validator.ValidatorResources" level="ERROR" includeLocation="true"
+                     additivity="false">
+            <AppenderRef ref="framework-output"/>
+        </AsyncLogger>
+        <!-- zookeeper -->
+        <AsyncLogger name="org.apache.zookeeper" level="WARN" includeLocation="true" additivity="false">
+            <AppenderRef ref="framework-output"/>
+        </AsyncLogger>
+        <!-- apache activemq -->
+        <AsyncLogger name="org.apache.activemq" level="WARN" includeLocation="true" additivity="false">
+            <AppenderRef ref="framework-output"/>
+        </AsyncLogger>
+        <!-- project loggers begin -->
+        <AsyncLogger name="com.mocoder.dingding.web" level="${var.log.level}" includeLocation="true" additivity="true">
+            <AppenderRef ref="proj-output"/>
+        </AsyncLogger>
+        <!-- project loggers end -->
+    </Loggers>
+</Configuration>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=GBK">
+  <title>��Panel</title>
+  <link rel="stylesheet" type="text/css" href="styles/mpanel.css"/>
+  <script type="text/javascript" src="../scripts/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="scripts/mpanel.js"></script>
+  <!-- Compliance patch for Microsoft browsers -->
+  <!--[if lt IE 9]>
+  <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+  <![endif]-->
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#panel").panel();
+    });
+  </script>
+</head>
+<body>
+<div id="panel" class="mpanel">
+  <div class="mpanel-header">
+    <h3>����</h3>
+    <ul class="mpanel-toolbar">
+      <li><a class="btn">���</a></li>
+      <li><a>�޸�</a></li>
+      <li><a>ɾ��</a></li>
+    </ul>
+  </div>
+  <div class="mpanel-body">
+    Panel����...
+  </div>
+</div>
+</body>
+</html>

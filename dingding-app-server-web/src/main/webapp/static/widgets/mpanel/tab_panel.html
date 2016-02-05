@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=GBK">
+  <title>PANEL_MODEL</title>
+  <link rel="stylesheet" type="text/css" href="styles/mpanel.css" />
+  <script type="text/javascript" src="../scripts/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="scripts/mpanel.js"></script>
+  <!-- Compliance patch for Microsoft browsers -->
+  <!--[if lt IE 9]>
+  <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script>
+  <![endif]-->
+  <script type="text/javascript">
+	$(document).ready(function() {
+		$("#panel").panel();
+    $("#panel2").panel();
+	});
+  </script>
+</head>
+<body>
+<div id="panel" class="mpanel">
+  <div class="mpanel-header">
+    <h3 class="title">����-Panel1</h3>
+    <ul class="tab-menu">
+      <li class="active"><a href="#tabs-1">First</a></li>
+      <li><a href="#tabs-2">Second</a></li>
+      <li><a href="#tabs-3">Third</a></li>
+    </ul>
+  </div>
+  <div class="mpanel-body">
+    <div id="tabs-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+    <div id="tabs-2">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+    <div id="tabs-3">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+  </div>
+</div>
+
+<div id="panel2" class="mpanel">
+  <div class="mpanel-header">
+    <h3 class="title">����-Panel2</h3>
+    <ul class="tab-menu">
+      <li class="active"><a href="#tabs-21">First</a></li>
+      <li><a href="#tabs-22">Second</a></li>
+      <li><a href="#tabs-23">Third</a></li>
+    </ul>
+  </div>
+  <div class="mpanel-body">
+    <div id="tabs-21">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+    <div id="tabs-22">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+    <div id="tabs-23">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+  </div>
+</div>
+</body>
+</html>

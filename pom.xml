@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.mocoder</groupId>
+        <artifactId>project-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <groupId>com.mocoder.dingding</groupId>
+    <artifactId>dingding-app-server</artifactId>
+    <name>dingding-app-server</name>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>dingding-app-server-web</module>
+        <module>dingding-app-server-service</module>
+        <module>dingding-app-server-rpc</module>
+        <module>dingding-app-server-dao</module>
+        <module>dingding-app-server-model</module>
+        <module>dingding-app-server-utils</module>
+    </modules>
+
+    <properties>
+        <build.file.encoding>UTF-8</build.file.encoding>
+        <log4j2.version>2.3</log4j2.version>
+        <disruptor.version>3.3.2</disruptor.version>
+        <xstream.version>1.4.5</xstream.version>
+        <jackson.version>1.9.11</jackson.version>
+        <jedis.version>2.6.0</jedis.version>
+        <spring.redis.version>1.4.0.RELEASE</spring.redis.version>
+    </properties>
+
+    <distributionManagement>
+        <!--<repository>-->
+            <!--<id>releases</id>-->
+            <!--<url>http://artifactory.360buy-develop.com/libs-releases</url>-->
+        <!--</repository>-->
+        <!--<snapshotRepository>-->
+            <!--<id>snapshots</id>-->
+            <!--<url>http://artifactory.360buy-develop.com/libs-snapshots</url>-->
+        <!--</snapshotRepository>-->
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--self dependency -->
+            <dependency>
+                <groupId>com.mocoder.dingding</groupId>
+                <artifactId>dingding-app-server-model</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mocoder.dingding</groupId>
+                <artifactId>dingding-app-server-utils</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mocoder.dingding</groupId>
+                <artifactId>dingding-app-server-rpc</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mocoder.dingding</groupId>
+                <artifactId>dingding-app-server-dao</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <!--self dependency end -->
+            <!-- log4j2 -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>${disruptor.version}</version>
+            </dependency>
+            <!--json,xml -->
+            <dependency>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+            <!--redis-->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>${spring.redis.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <env>dev</env>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>preproduction</id>
+            <properties>
+                <env>preproduction</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <env>production</env>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <!-- package jar with full name -->
+        <!--<finalName>dingding-app-server</finalName> -->
+        <filters>
+            <filter>../profiles-${env}.properties</filter>
+        </filters>
+        <defaultGoal>package</defaultGoal>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <includes>
+                        <!--<include>**/RpcServiceTest.java</include>-->
+                    </includes>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <path>/</path>
+                    <port>8080</port>
+                    <uriEncoding>UTF-8</uriEncoding>
+                    <server>tomcat</server>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,332 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.no-scroll{
+  overflow: hidden;
+}
+#content_main {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-left: 3px solid #198BC9;
+  border-right: 2px solid #198BC9;
+  border-top: 1px solid #198BC9;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+}
+
+.sideleft {
+  background-color: #E6F4FA;
+  padding: 0;
+}
+
+.side {
+  background: none repeat scroll 0 0 #198BC9;
+}
+
+.navPoint {
+  COLOR: white;
+  CURSOR: hand;
+  FONT-FAMILY: Webdings;
+  FONT-SIZE: 9pt
+}
+
+#footer {
+  background: url("images/bottombg.gif") repeat-x scroll 0 0 transparent;
+  color: #FFFFFF;
+  font-size: 12px;
+  height: 25px;
+  line-height: 25px;
+  margin: 0;
+  padding: 0 0 0 10px;
+  text-align: center;
+  width: 100%;
+}
+
+#footer .copyright {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/**
+ * @subsection ico 图标
+ */
+.ico {
+  height: 18px;
+  vertical-align: middle;
+  width: 24px;
+  display: inline-block;
+  background-image: url(images/icons/ico.png);
+  background-repeat: no-repeat;;
+  background-position: 0 0;
+}
+
+.ico.ico-key {
+  background-position: -4px -90px;
+}
+
+.ico.ico-logoff {
+  background-position: -32px -90px;
+}
+
+.ico.ico-edit {
+  background-position: -30px -118px;
+}
+
+.ico.ico-del {
+  background-position: -178px -145px;
+}
+
+.frame-border{
+  background-color: #1873aa;
+  width: 3px;
+}
+.frame-border.middle{
+  width: 6px;
+}
+
+/**
+* @subsection menu 菜单
+*/
+
+#header {
+  background: url(images/top-bg.png) repeat-x;
+  margin: 0 auto 10px;
+  border: 2px solid #1873aa;
+  border-width: 3px 3px 2px 3px ;
+}
+
+#header .header-top {
+  background: url("images/header-BG-2.jpg") no-repeat scroll center 0;
+  height: 58px
+}
+
+#header #logo {
+  float: left;
+  margin: 0 20px 0 20px
+}
+
+#header #logo a {
+  float: left;
+  height: 58px;
+  line-height: 58px;
+  text-shadow: 2px 2px 1px #24659f
+}
+
+#header #logo a.jd {
+  text-indent: -9999px;
+  width: 150px;
+  background: url(images/logo.png) 0 center no-repeat transparent
+}
+
+#header #logo a.sys {
+  font-family: "\5FAE\8F6F\96C5\9ED1";
+  font-size: 24px;
+  color: #fff;
+  text-decoration: none
+}
+
+#header .nav {
+  padding-top: 30px;
+  margin-left: 20px;
+  float: left
+}
+
+#header .nav li {
+  width: 98px;
+  height: 28px;
+  line-height: 28px;
+  float: left;
+  text-align: center;
+  background: url(images/heaer-2-line.png) right center no-repeat;
+  position: relative
+}
+
+#header .nav li a {
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none
+}
+
+#header .nav li a:hover {
+  text-decoration: none
+}
+
+#header .nav li.curr {
+  background: url(images/heaer-2-nav.png) 0 0 no-repeat
+}
+
+#header .nav li.curr a {
+  color: #2368a3
+}
+
+#header .nav li .lev-2 {
+  width: 600px;
+  position: absolute;
+  left: 0;
+  top: 26px;
+  z-index: 1;
+  text-align: left;
+  display: none;
+  padding: 6px 0
+}
+
+#header .nav li .lev-2 a {
+  display: inline-block;
+  padding: 0 8px;
+  font-size: 12px;
+  color: #0095cd;
+  line-height: 18px
+}
+
+#header .nav li .lev-2 a.curr {
+  background: #0095cd;
+  color: #fff
+}
+
+#header .nav li.curr .lev-2, #header .nav li.hover .lev-2 {
+  display: block
+}
+
+#header .user {
+  float: right;
+  padding-top: 30px;
+  margin-right: 10px;
+  color: #fff
+}
+
+#header .user a {
+  color: #bee2f9
+}
+
+/**
+* @subsection menu 菜单
+*/
+.menu-container{
+  padding: 1px 2px 2px 2px;
+  text-align: center;
+}
+#menu {
+  /*width: 210px;*/
+  border: 1px solid #90c0e9;
+  background-color: #eef6fc;
+  margin-top: 1px;
+}
+
+#menu li {
+  margin-bottom: 2px;
+}
+
+#menu a {
+  text-decoration: none;
+  display: block;
+  overflow: hidden;
+}
+
+#menu .menu-tit {
+  margin-bottom: 2px
+}
+
+#menu .menu-tit a {
+  font-family: "\5FAE\8F6F\96C5\9ED1";
+  height: 36px;
+  line-height: 34px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border-top: 1px solid #90c0e9;
+  border-bottom: 2px solid #5495cf;
+  background-image: -moz-linear-gradient(top, #a1d3ff, #91c1ea);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #a1d3ff), color-stop(1, #91c1ea));
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#a1d3ff, endColorstr=#91c1ea, GradientType='0');
+  text-shadow: 1px 1px 0 #5495cf
+}
+
+#menu .menu_lev1 li {
+  background: url(images/img-w-1px.png) 0 0 repeat-x;
+}
+
+#menu .tit_lev1 {
+  height: 38px;
+  line-height: 38px;
+  /* border-top: 1px solid #90c0e9;*/
+  padding-left: 15px;
+  font-family: Verdana, "微软雅黑";
+  color: #347dbb;
+  font-size: 16px;
+}
+#menu .tit_lev1.noNext {
+  height: 0px;
+  line-height: 0px;
+}
+
+#menu .tit_lev1.open {
+  background: url("images/icons/ico.png") no-repeat scroll 182px -21px #347db8;
+  color: #fff;
+}
+
+#menu .tit_lev1.closed {
+  background: url("images/icons/ico.png") no-repeat scroll 182px 8px transparent;
+}
+
+#menu .tit_lev1.selected {
+  background-color: #347db8;
+  color: #fff;
+}
+
+#menu .menu_lev2 {
+  background-color: #eef6fc;
+  display: none;
+}
+
+#menu .menu_lev2 li {
+  background-image: none;
+}
+
+#menu ul ul .tit_lev2 {
+  background-color: #d8edf9;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 30px;
+  font-family: Verdana, "新仿宋";
+  color: #347dbb;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#menu ul ul .tit_lev2.open {
+  background: url("images/icons/ico.png") no-repeat scroll -165px 7px #d8edf9;
+}
+
+#menu ul ul .tit_lev2.closed {
+  background: url("images/icons/ico.png") no-repeat scroll -165px -21px #d8edf9;
+}
+
+#menu ul ul .tit_lev2.selected {
+  border-left: 3px solid #347dbb;
+  padding-left: 27px;
+}
+
+#menu .menu_lev3 {
+  background-color: #eef6fc;
+  display: none;
+}
+
+#menu ul ul ul .tit_lev3 {
+  background-color: #eef6fc;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 45px;
+  color: #444;
+}
+
+#menu ul ul ul .tit_lev3.selected {
+  border-left: 3px solid #347dbb;
+  padding-left: 42px;
+  background-color: #90c0e9;
+  color: #fff;
+}
+
+#menu ul li a, #menu ul li ul li a, #menu ul li ul li ul li a {
+  border-bottom: 1px solid #90c0e9;
+}
