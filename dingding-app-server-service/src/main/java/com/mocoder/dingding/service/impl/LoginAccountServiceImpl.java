@@ -8,6 +8,7 @@ import com.mocoder.dingding.model.LoginAccount;
 import com.mocoder.dingding.model.LoginAccountCriteria;
 import com.mocoder.dingding.rpc.SmsServiceWrap;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +36,7 @@ public class LoginAccountServiceImpl implements LoginAccountService{
     private LoginAccountMapper loginAccountMapper;
 
     @Override
-    public CommonResponse<LoginAccount> loginByPass(String mobile, String password, RedisRequestSession session) {
+    public CommonResponse<LoginAccount> loginByPass(String mobile, String password, RedisRequestSession session, CommonRequest request) {
 
         CommonResponse<LoginAccount> response = new CommonResponse<LoginAccount>();
         if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY,LoginAccount.class)!=null){
@@ -48,7 +49,8 @@ public class LoginAccountServiceImpl implements LoginAccountService{
                 if(DigestUtils.md5DigestAsHex(password.getBytes("utf-8")).equals(record.getPassword())){
                     record.setPassword(null);
                     session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY,record);
-                    session.setAttribute(SessionKeyConstant.VERIFY_CODE_KEY,null);
+                    session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
+                    session.saveUserSessionId(request, record.getMobile());
                     response.setData(record);
                     response.setCode(0);
                     response.setMsg("成功");
@@ -80,7 +82,7 @@ public class LoginAccountServiceImpl implements LoginAccountService{
     }
 
     @Override
-    public CommonResponse<LoginAccount> loginByVerifyCode(String mobile, String verifyCode, RedisRequestSession session) {
+    public CommonResponse<LoginAccount> loginByVerifyCode(String mobile, String verifyCode, RedisRequestSession session, CommonRequest request) {
         CommonResponse<LoginAccount> response = new CommonResponse<LoginAccount>();
         if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY,LoginAccount.class)!=null){
             response.resolveErrorInfo(ErrorTypeEnum.LOGIN_DUPLICATE_ERROR);
@@ -96,7 +98,8 @@ public class LoginAccountServiceImpl implements LoginAccountService{
                 response.setMsg("成功");
                 response.setUiMsg("登录成功");
                 session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY,record);
-                session.setAttribute(SessionKeyConstant.VERIFY_CODE_KEY,null);
+                session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
+                session.saveUserSessionId(request,record.getMobile());
                 return response;
             }else{
                 response.resolveErrorInfo(ErrorTypeEnum.ACCOUNT_NOT_EXISTS);
@@ -109,7 +112,7 @@ public class LoginAccountServiceImpl implements LoginAccountService{
     }
 
     @Override
-    public CommonResponse<LoginAccount> registerAccount(LoginAccount account, RedisRequestSession session) {
+    public CommonResponse<LoginAccount> registerAccount(LoginAccount account, RedisRequestSession session, CommonRequest request) {
         CommonResponse<LoginAccount> response = new CommonResponse<LoginAccount>();
         if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY,LoginAccount.class)!=null){
             response.resolveErrorInfo(ErrorTypeEnum.NOT_LOG_OUT_ERROR);
@@ -130,7 +133,8 @@ public class LoginAccountServiceImpl implements LoginAccountService{
         loginAccountMapper.insertSelective(account);
         account.setPassword(null);
         session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY,account);
-        session.setAttribute(SessionKeyConstant.VERIFY_CODE_KEY,null);
+        session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
+        session.saveUserSessionId(request,record.getMobile());
         response.setData(account);
         response.setCode(0);
         response.setMsg("注册成功");

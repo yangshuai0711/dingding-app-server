@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 /**
  * 加密参数请求拦截器(重要或者限制性操作如获取短信验证码等，不需要登录)
@@ -39,6 +40,9 @@ public class EncryptParameterValidateInterceptor extends BaseParamValidateInterc
         }
         if(StringUtils.isBlank(req.getBody())){
             req.setBody("");
+        }
+        if(StringUtils.isBlank(req.getSessionid())){
+            req.setSessionid("");
         }
         String tmpStr = req.getBody()+req.getTimestamp()+req.getSessionid()+ EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
         String targetToken = null;

@@ -139,10 +139,11 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/account/**"/>
+            <mvc:mapping path="/param/**"/>
             <bean class="com.mocoder.dingding.web.interceptor.EncryptParameterValidateInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
-            <mvc:mapping path="/param/**"/>
+            <mvc:mapping path="/something/**"/>
             <bean class="com.mocoder.dingding.web.interceptor.BaseParamValidateInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>

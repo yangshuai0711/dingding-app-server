@@ -1,5 +1,6 @@
 package com.mocoder.dingding.service;
 
+import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
 import com.mocoder.dingding.model.LoginAccount;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
@@ -16,26 +17,29 @@ public interface LoginAccountService {
      * @param mobile
      * @param password
      * @param session
+     * @param request
      * @return
      */
-    public CommonResponse<LoginAccount> loginByPass(String mobile, String password, RedisRequestSession session);
+    public CommonResponse<LoginAccount> loginByPass(String mobile, String password, RedisRequestSession session, CommonRequest request);
 
     /**
      * 验证码登录
      * @param mobile
      * @param verifyCode
      * @param session
+     * @param request
      * @return
      */
-    public CommonResponse<LoginAccount> loginByVerifyCode(String mobile,String verifyCode,RedisRequestSession session);
+    public CommonResponse<LoginAccount> loginByVerifyCode(String mobile, String verifyCode, RedisRequestSession session, CommonRequest request);
 
     /**
      * 注册
      * @param account
      * @param session
+     * @param request
      * @return
      */
-    public CommonResponse<LoginAccount> registerAccount(LoginAccount account, RedisRequestSession session);
+    public CommonResponse<LoginAccount> registerAccount(LoginAccount account, RedisRequestSession session, CommonRequest request);
 
     /**
      * 获取注册验证码

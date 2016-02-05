@@ -23,14 +23,18 @@ public class RedisUtil {
     }
 
 
-    public static String getString(final String key) {
+    public static String getString(final String key, final Long seconds) {
         String result = (String) redisTemplate.execute(new RedisCallback<String>() {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 try {
-                    byte[] value = connection.get(key.getBytes("utf-8"));
+                    byte[] byteKey = key.getBytes("utf-8");
+                    byte[] value = connection.get(byteKey);
                     if (value == null) {
                         return null;
+                    }
+                    if (seconds != null) {
+                        connection.expire(byteKey, seconds);
                     }
                     return new String(value, "utf-8");
                 } catch (UnsupportedEncodingException e) {
@@ -74,8 +78,8 @@ public class RedisUtil {
         }, true, true);
     }
 
-    public static <T> T getObj(final String key, final TypeRef<T> type) {
-        String result = getString(key);
+    public static <T> T getObj(final String key, final TypeRef<T> type, final Long seconds) {
+        String result = getString(key,seconds);
         if (result == null) {
             return null;
         }
@@ -98,14 +102,18 @@ public class RedisUtil {
         }
     }
 
-    public static String hGetString(final String key, final String field) {
+    public static String hGetString(final String key, final String field, final Long seconds) {
         String result = (String) redisTemplate.execute(new RedisCallback<String>() {
             @Override
             public String doInRedis(RedisConnection connection) throws DataAccessException {
                 try {
-                    byte[] value = connection.hGet(key.getBytes("utf-8"), field.getBytes("utf-8"));
+                    byte[] byteKey = key.getBytes("utf-8");
+                    byte[] value = connection.hGet(byteKey, field.getBytes("utf-8"));
                     if (value == null) {
                         return null;
+                    }
+                    if (seconds != null) {
+                        connection.expire(byteKey, seconds);
                     }
                     return new String(value, "utf-8");
                 } catch (UnsupportedEncodingException e) {
@@ -148,8 +156,8 @@ public class RedisUtil {
         }, true, false);
     }
 
-    public static <T> T hGetObj(final String key, final String field, final TypeRef<T> type) {
-        String result = hGetString(key, field);
+    public static <T> T hGetObj(final String key, final String field, final TypeRef<T> type, final Long seconds) {
+        String result = hGetString(key, field,seconds);
         if (result == null) {
             return null;
         }
@@ -172,20 +180,53 @@ public class RedisUtil {
         }
     }
 
-    public static <T> Map<String, T> hGetAllObj(final String key, final TypeRef<T> type) {
+    public static <T> Map<String, T> hGetAllObj(final String key, final TypeRef<T> type, final Long seconds) {
 
         Map<String, T> result = (Map<String, T>) redisTemplate.execute(new RedisCallback<Map<String, T>>() {
             @Override
             public Map<String, T> doInRedis(RedisConnection connection) throws DataAccessException {
                 try {
+                    byte[] byteKey = key.getBytes("utf-8");
                     Map<String, T> resultMap = new LinkedHashMap<String, T>();
-                    Map<byte[], byte[]> map = connection.hGetAll(key.getBytes("utf-8"));
+                    Map<byte[], byte[]> map = connection.hGetAll(byteKey);
                     if (map == null) {
                         return resultMap;
+                    }
+                    if (seconds != null) {
+                        connection.expire(byteKey, seconds);
                     }
                     for (Map.Entry<byte[], byte[]> ent : map.entrySet()) {
                         String key = new String(ent.getKey(), "utf-8");
                         T value = JsonUtil.toObject(new String(ent.getValue(), "utf-8"), type);
+                        resultMap.put(key, value);
+                    }
+                    return resultMap;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, true, false);
+        return result;
+    }
+
+    public static Map<String, String> hGetAllString(final String key,final Long seconds) {
+
+        Map<String, String> result = (Map<String, String>) redisTemplate.execute(new RedisCallback<Map<String, String>>() {
+            @Override
+            public Map<String, String> doInRedis(RedisConnection connection) throws DataAccessException {
+                try {
+                    byte[] byteKey = key.getBytes("utf-8");
+                    Map<String, String> resultMap = new LinkedHashMap<String, String>();
+                    Map<byte[], byte[]> map = connection.hGetAll(byteKey);
+                    if (map == null) {
+                        return resultMap;
+                    }
+                    if (seconds != null) {
+                        connection.expire(byteKey, seconds);
+                    }
+                    for (Map.Entry<byte[], byte[]> ent : map.entrySet()) {
+                        String key = new String(ent.getKey(), "utf-8");
+                        String value = new String(ent.getValue(), "utf-8");
                         resultMap.put(key, value);
                     }
                     return resultMap;

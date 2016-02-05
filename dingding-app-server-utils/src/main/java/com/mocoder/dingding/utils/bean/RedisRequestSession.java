@@ -4,6 +4,7 @@ import com.mocoder.dingding.constants.RedisKeyConstant;
 import com.mocoder.dingding.utils.bean.TypeRef;
 import com.mocoder.dingding.utils.spring.SpringContextHolder;
 import com.mocoder.dingding.utils.web.RedisUtil;
+import com.mocoder.dingding.vo.CommonRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Map;
@@ -15,7 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RedisRequestSession {
     private String sessionId;
     private Map<String,Object> attributes = new ConcurrentHashMap<String,Object>();
-    private RedisTemplate redisTemplate;
     private long expireDelay;
 
     /**
@@ -24,13 +24,8 @@ public class RedisRequestSession {
      * @param minutes n秒后过期
      */
     public RedisRequestSession(String sessionId,long minutes) {
-        this();
         this.sessionId = sessionId;
         expireDelay = minutes;
-    }
-
-    public RedisRequestSession() {
-        redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
     }
 
     public String getSessionId() {
@@ -42,11 +37,11 @@ public class RedisRequestSession {
     }
 
     public Map<String, Object> getAttributes() {
-        return RedisUtil.hGetAllObj(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX, new TypeRef<Object>());
+        return RedisUtil.hGetAllObj(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX, new TypeRef<Object>(),expireDelay*60);
     }
 
     public <T> T getAttribute(String key,Class<T> tClass){
-        return RedisUtil.hGetObj(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX + sessionId,key, new TypeRef<T>());
+        return RedisUtil.hGetObj(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX + sessionId,key, new TypeRef<T>(),expireDelay*60);
     }
 
     public void setAttribute(String key,Object obj){
@@ -56,4 +51,20 @@ public class RedisRequestSession {
     public void removeAttribute(String key){
         RedisUtil.hDel(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+sessionId,key);
     }
+
+    public void saveUserSessionId(CommonRequest request,String userId){
+        StringBuilder stringBuilder = new StringBuilder(request.getDeviceid()).append('_').append(request.getAppversion());
+        RedisUtil.hSetString(RedisKeyConstant.USER_REQUEST_SESSION_INFO_KEY_PREFIX+userId,stringBuilder.toString(),sessionId,null);
+    }
+
+    public void cleanUserAllSession(String userId){
+        Map<String,String> sessionIdMap = RedisUtil.hGetAllString(RedisKeyConstant.USER_REQUEST_SESSION_INFO_KEY_PREFIX + userId, null);
+        for(String value:sessionIdMap.values()){
+            RedisUtil.del(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+sessionId);
+        }
+    }
+
+
+
+
 }

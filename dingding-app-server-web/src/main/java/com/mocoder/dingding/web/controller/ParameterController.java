@@ -1,6 +1,8 @@
 package com.mocoder.dingding.web.controller;
 
+import com.mocoder.dingding.constants.RedisKeyConstant;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.utils.web.RedisUtil;
 import com.mocoder.dingding.vo.CommonResponse;
 import com.mocoder.dingding.web.annotation.ValidateBody;
 import org.springframework.stereotype.Controller;
@@ -22,8 +24,10 @@ public class ParameterController {
     @ResponseBody
     public CommonResponse<String> loginByPassword(@ValidateBody Map<String,String> body,HttpServletRequest request,RedisRequestSession session){
         CommonResponse<String> response = new CommonResponse<String>();
+        String sessionId = UUID.randomUUID().toString();
+        RedisUtil.setString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionId,"ok",60l);
         response.setCode(0);
-        response.setData(UUID.randomUUID().toString());
+        response.setData(sessionId);
         return response;
     }
 }

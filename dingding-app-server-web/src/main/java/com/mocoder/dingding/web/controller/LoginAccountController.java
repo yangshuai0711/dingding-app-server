@@ -3,6 +3,7 @@ package com.mocoder.dingding.web.controller;
 import com.mocoder.dingding.model.LoginAccount;
 import com.mocoder.dingding.service.LoginAccountService;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
 import com.mocoder.dingding.vo.LoginAccountRequest;
 import com.mocoder.dingding.web.annotation.ValidateBody;
@@ -29,15 +30,15 @@ public class LoginAccountController {
 
     @RequestMapping("loginByPass")
     @ResponseBody
-    public CommonResponse<LoginAccount> loginByPassword(@ValidateBody(requiredAttrs = {"mobile", "password"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session) {
-        CommonResponse<LoginAccount> response = loginAccountService.loginByPass(body.getMobile(), body.getPassword(), session);
+    public CommonResponse<LoginAccount> loginByPassword(@ValidateBody(requiredAttrs = {"mobile", "password"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session,CommonRequest request) {
+        CommonResponse<LoginAccount> response = loginAccountService.loginByPass(body.getMobile(), body.getPassword(), session,request);
         return response;
     }
 
     @RequestMapping(value = "loginByCode",method = {RequestMethod.POST})
     @ResponseBody
-    public CommonResponse<LoginAccount> loginByCode(@ValidateBody(requiredAttrs = {"mobile", "verifyCode"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session) {
-        CommonResponse<LoginAccount> response  = loginAccountService.loginByVerifyCode(body.getMobile(), body.getPassword(), session);
+    public CommonResponse<LoginAccount> loginByCode(@ValidateBody(requiredAttrs = {"mobile", "verifyCode"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session,CommonRequest request) {
+        CommonResponse<LoginAccount> response  = loginAccountService.loginByVerifyCode(body.getMobile(), body.getPassword(), session,request);
         return response;
     }
 
@@ -57,10 +58,10 @@ public class LoginAccountController {
 
     @RequestMapping("reg")
     @ResponseBody
-    public CommonResponse<LoginAccount> reg(@ValidateBody(requiredAttrs = {"mobile", "nickName", "password","verifyCode"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public CommonResponse<LoginAccount> reg(@ValidateBody(requiredAttrs = {"mobile", "nickName", "password","verifyCode"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session,CommonRequest request) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         LoginAccount account = new LoginAccount();
         PropertyUtils.copyProperties(account,body);
-        CommonResponse<LoginAccount> response = loginAccountService.registerAccount(account, session);
+        CommonResponse<LoginAccount> response = loginAccountService.registerAccount(account, session,request);
         return response;
     }
 }

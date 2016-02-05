@@ -98,13 +98,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mocoder.dingding.model.LoginAccount">
+  <insert id="insert" parameterType="com.mocoder.dingding.model.LoginAccount" useGeneratedKeys="true">
     insert into login_account (id, mobile, nick_name, 
       password)
     values (#{id,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.mocoder.dingding.model.LoginAccount">
+  <insert id="insertSelective" parameterType="com.mocoder.dingding.model.LoginAccount" useGeneratedKeys="true">
     insert into login_account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

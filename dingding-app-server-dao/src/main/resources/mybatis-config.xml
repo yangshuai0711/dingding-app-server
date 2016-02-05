@@ -7,7 +7,7 @@
 
 	<!-- scan for mappers and let them be autowired -->
 	<!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> -->
-	<!--<property name="basePackage" value="com.jd.oo.josladmin.model" /> -->
+	<!--<property name="basePackage" value="com.mocoder.dingding.model" /> -->
 	<!--</bean> -->
 
 	<settings>

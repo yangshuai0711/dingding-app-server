@@ -1,10 +1,9 @@
 package com.mocoder.dingding.web.interceptor;
 
-import com.mocoder.dingding.constants.AppVersionConstant;
-import com.mocoder.dingding.constants.RequestAttributeKeyConstant;
+import com.mocoder.dingding.constants.*;
 import com.mocoder.dingding.enums.ErrorTypeEnum;
-import com.mocoder.dingding.constants.PlatformConstant;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.utils.web.RedisUtil;
 import com.mocoder.dingding.utils.web.WebUtil;
 import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
@@ -55,11 +54,11 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
             resp.setMsg("参数deviceId取值不正确");
-        } else if(req.getSessionid()==null){
-            resp = new CommonResponse();
-            resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_SESSION_ABSENT);
-            resp.setData(UUID.randomUUID().toString());
-            resp.setMsg("参数sessionId取值不正确");
+        } else if(validateSessionId(request,req.getSessionid())){
+                resp = new CommonResponse();
+                resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_SESSION_ABSENT);
+                resp.setData(UUID.randomUUID().toString());
+                resp.setMsg("参数sessionId取值不正确");
         }
         if(resp!=null){
             try {
@@ -71,8 +70,26 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
         }
         req.setBody(request.getParameter("body"));
         request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_COMMON_REQUEST,req);
-        request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION,new RedisRequestSession(req.getSessionid(), appSessionExpireDays *24*60));
         return true;
+    }
+
+    private boolean validateSessionId(HttpServletRequest request,String sessionid) {
+        String uri = request.getRequestURI().replace(request.getContextPath(),"");
+        if("/param/getSessionId".equals(uri)) {
+            return true;
+        }
+        if(sessionid==null){
+            return false;
+        }
+        RedisRequestSession session = new RedisRequestSession(sessionid, appSessionExpireDays *24*60);
+        if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY,Object.class)!=null){
+            request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION,session);
+            return true;
+        }
+        if(RedisUtil.getString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionid,null)!=null){
+            return true;
+        }
+        return false;
     }
 
     private boolean validateDeviceId(String deviceid) {
