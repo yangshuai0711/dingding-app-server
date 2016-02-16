@@ -4,6 +4,7 @@ import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
 import com.mocoder.dingding.model.LoginAccount;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.vo.LoginAccountRequest;
 
 /**
  * 登录账户服务
@@ -39,7 +40,7 @@ public interface LoginAccountService {
      * @param request
      * @return
      */
-    public CommonResponse<LoginAccount> registerAccount(LoginAccount account, RedisRequestSession session, CommonRequest request);
+    public CommonResponse<LoginAccount> registerAccount(LoginAccountRequest account, RedisRequestSession session, CommonRequest request);
 
     /**
      * 获取注册验证码
@@ -56,4 +57,12 @@ public interface LoginAccountService {
      * @return
      */
     public CommonResponse<String> getLoginVerifyCode(String mobile, RedisRequestSession session);
+
+    /**
+     * 注销当前设备的当前账户
+     * @param body
+     * @param session
+     * @return
+     */
+    CommonResponse<LoginAccount> logoutAccount(LoginAccountRequest body, RedisRequestSession session);
 }

@@ -38,7 +38,7 @@ public class LoginAccountController {
     @RequestMapping(value = "loginByCode",method = {RequestMethod.POST})
     @ResponseBody
     public CommonResponse<LoginAccount> loginByCode(@ValidateBody(requiredAttrs = {"mobile", "verifyCode"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session,CommonRequest request) {
-        CommonResponse<LoginAccount> response  = loginAccountService.loginByVerifyCode(body.getMobile(), body.getPassword(), session,request);
+        CommonResponse<LoginAccount> response  = loginAccountService.loginByVerifyCode(body.getMobile(), body.getVerifyCode(), session,request);
         return response;
     }
 
@@ -59,9 +59,14 @@ public class LoginAccountController {
     @RequestMapping("reg")
     @ResponseBody
     public CommonResponse<LoginAccount> reg(@ValidateBody(requiredAttrs = {"mobile", "nickName", "password","verifyCode"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session,CommonRequest request) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        LoginAccount account = new LoginAccount();
-        PropertyUtils.copyProperties(account,body);
-        CommonResponse<LoginAccount> response = loginAccountService.registerAccount(account, session,request);
+        CommonResponse<LoginAccount> response = loginAccountService.registerAccount(body, session,request);
+        return response;
+    }
+
+    @RequestMapping("logout")
+    @ResponseBody
+    public CommonResponse<LoginAccount> logout(@ValidateBody(requiredAttrs = {"mobile"},algorithm = BodyAlgorithmEnum.BASE64) LoginAccountRequest body, RedisRequestSession session) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        CommonResponse<LoginAccount> response = loginAccountService.logoutAccount(body, session);
         return response;
     }
 }

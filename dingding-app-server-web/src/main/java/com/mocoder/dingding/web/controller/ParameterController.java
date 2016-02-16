@@ -25,7 +25,7 @@ public class ParameterController {
     public CommonResponse<String> loginByPassword(@ValidateBody Map<String,String> body,HttpServletRequest request,RedisRequestSession session){
         CommonResponse<String> response = new CommonResponse<String>();
         String sessionId = UUID.randomUUID().toString();
-        RedisUtil.setString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionId,"ok",60l);
+        RedisUtil.setString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionId,"ok",60*30L);
         response.setCode(0);
         response.setData(sessionId);
         return response;

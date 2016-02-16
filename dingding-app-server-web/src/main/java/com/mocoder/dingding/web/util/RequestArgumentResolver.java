@@ -47,7 +47,7 @@ public class RequestArgumentResolver implements HandlerMethodArgumentResolver {
         if (annotation != null) {
             BodyAlgorithmEnum[] algorithm = annotation.algorithm();
             String paramName = annotation.value();
-            String[] requiredField = annotation.requiredAttrs();
+            String[] requiredFields = annotation.requiredAttrs();
             if (StringUtils.isNotBlank(paramName) && StringUtils.isNotBlank(webRequest.getParameter(paramName))) {
                 String bodyString = webRequest.getParameter(paramName);
                 if(algorithm.length>0){
@@ -72,7 +72,7 @@ public class RequestArgumentResolver implements HandlerMethodArgumentResolver {
                     exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR,"请求体解析异常");
                     throw exception;
                 }
-                validParam(obj,requiredField);
+                validParam(obj,requiredFields);
                 return obj;
             }else{
                 ParameterValidateException exception = new ParameterValidateException("请求体"+paramName+"不能为空");

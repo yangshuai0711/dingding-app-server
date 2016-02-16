@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 限制型公开资源请求拦截器(短信验证码等不需要登录的)
+ * 登录状态拦截器
  * Created by yangshuai3 on 2016/1/28.
  */
 public class LoginStatusInterceptor extends EncryptParameterValidateInterceptor {
@@ -25,12 +25,14 @@ public class LoginStatusInterceptor extends EncryptParameterValidateInterceptor 
         }
         RedisRequestSession session = (RedisRequestSession) request.getAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION);
         CommonResponse resp = new CommonResponse();
-        LoginAccount user = session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, LoginAccount.class);
-        resp.resolveErrorInfo(ErrorTypeEnum.NOT_LOGIN);
-        try {
-            WebUtil.writeResponse(response, resp);
-        } catch (IOException e) {
-            logger.error("登录拦截器：写出登录结果异常",e);
+        if (session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, LoginAccount.class) == null) {
+            resp.resolveErrorInfo(ErrorTypeEnum.NOT_LOGIN);
+            try {
+                WebUtil.writeResponse(response, resp);
+            } catch (IOException e) {
+                logger.error("登录拦截器：写出登录结果异常",e);
+            }
+            return false;
         }
         return true;
     }

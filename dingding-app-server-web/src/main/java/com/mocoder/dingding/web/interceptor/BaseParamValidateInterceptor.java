@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * 限制型公开资源请求拦截器(短信验证码等不需要登录的)
+ * 基本参数拦截器
  * Created by yangshuai3 on 2016/1/28.
  */
 public class BaseParamValidateInterceptor extends ValidatorInterceptor {
@@ -46,15 +46,15 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
             resp.setMsg("参数platform取值不正确");
-        }else if(validateTimeStamp(req.getTimestamp())){
+        }else if(!validateTimeStamp(req.getTimestamp())){
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
             resp.setMsg("参数timeStamp取值不正确");
-        }else if(validateDeviceId(req.getDeviceid())){
+        }else if(!validateDeviceId(req.getDeviceid())){
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
             resp.setMsg("参数deviceId取值不正确");
-        } else if(validateSessionId(request,req.getSessionid())){
+        } else if(!validateSessionId(request,req.getSessionid())){
                 resp = new CommonResponse();
                 resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_SESSION_ABSENT);
                 resp.setData(UUID.randomUUID().toString());
@@ -82,11 +82,12 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
             return false;
         }
         RedisRequestSession session = new RedisRequestSession(sessionid, appSessionExpireDays *24*60);
-        if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY,Object.class)!=null){
+        if(RedisUtil.getString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionid,null)!=null){
             request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION,session);
             return true;
         }
-        if(RedisUtil.getString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionid,null)!=null){
+        if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, Object.class)!=null){
+            request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION,session);
             return true;
         }
         return false;

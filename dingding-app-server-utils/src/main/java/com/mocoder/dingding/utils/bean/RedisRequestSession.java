@@ -57,10 +57,14 @@ public class RedisRequestSession {
         RedisUtil.hSetString(RedisKeyConstant.USER_REQUEST_SESSION_INFO_KEY_PREFIX+userId,stringBuilder.toString(),sessionId,null);
     }
 
-    public void cleanUserAllSession(String userId){
+    public void destroy(){
+        RedisUtil.del(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+sessionId);
+    }
+
+    public void cleanUserAllDeviceSession(String userId){
         Map<String,String> sessionIdMap = RedisUtil.hGetAllString(RedisKeyConstant.USER_REQUEST_SESSION_INFO_KEY_PREFIX + userId, null);
         for(String value:sessionIdMap.values()){
-            RedisUtil.del(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+sessionId);
+            RedisUtil.del(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+value);
         }
     }
 

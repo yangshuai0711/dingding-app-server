@@ -140,6 +140,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/account/**"/>
             <mvc:mapping path="/param/**"/>
+            <mvc:exclude-mapping path="/account/logout*"/>
             <bean class="com.mocoder.dingding.web.interceptor.EncryptParameterValidateInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
@@ -148,6 +149,7 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/userInfo/**"/>
+            <mvc:mapping path="/account/logout*"/>
             <bean class="com.mocoder.dingding.web.interceptor.LoginStatusInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
