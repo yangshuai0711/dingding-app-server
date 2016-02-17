@@ -1,9 +1,5 @@
 package com.mocoder.dingding.test.client;
 
-import com.mocoder.dingding.enums.ErrorTypeEnum;
-import com.mocoder.dingding.utils.web.JsonUtil;
-import com.mocoder.dingding.vo.CommonResponse;
-
 import java.io.*;
 import java.net.*;
 import java.util.Iterator;
