@@ -25,6 +25,8 @@ import java.util.Scanner;
  */
 public class httpClientTest {
 
+    private static final String HOST = "https://mocoder.com/dingding/";
+
     @Test
     public void testGetLoginCode() {
         String sessionId = getSessionId();
@@ -50,7 +52,7 @@ public class httpClientTest {
     }
 
     public static String getSessionId() {
-        String url = "http://localhost:8080/param/getSessionId";
+        String url = HOST+"param/getSessionId";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
         header.put("platform", PlatformConstant.ANDROID);
@@ -66,7 +68,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
             String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doPost(url, header, param);
+            String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------getSessionId()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -80,7 +82,7 @@ public class httpClientTest {
     }
 
     public static boolean getLoginCode(String sessionId) {
-        String url = "http://localhost:8080/account/getLoginVerifyCode";
+        String url = HOST+"account/getLoginVerifyCode";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
         header.put("platform", PlatformConstant.ANDROID);
@@ -96,7 +98,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
             String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doPost(url, header, param);
+            String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------getLoginCode()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -110,7 +112,7 @@ public class httpClientTest {
     }
 
     public static boolean getRegCode(String sessionId) {
-        String url = "http://localhost:8080/account/getRegVerifyCode";
+        String url = HOST+"account/getRegVerifyCode";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
         header.put("platform", PlatformConstant.ANDROID);
@@ -126,7 +128,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
             String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doPost(url, header, param);
+            String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------getRegCode()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -140,7 +142,7 @@ public class httpClientTest {
     }
 
     public static boolean reg(String sessionId, String verifyCode) {
-        String url = "http://localhost:8080/account/reg";
+        String url = HOST+"account/reg";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
         header.put("platform", PlatformConstant.ANDROID);
@@ -162,7 +164,7 @@ public class httpClientTest {
 
             String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doPost(url, header, param);
+            String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------reg()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -176,7 +178,7 @@ public class httpClientTest {
     }
 
     public static boolean loginByCode(String sessionId, String verifyCode) {
-        String url = "http://localhost:8080/account/loginByCode";
+        String url = HOST+"account/loginByCode";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
         header.put("platform", PlatformConstant.ANDROID);
@@ -196,7 +198,7 @@ public class httpClientTest {
 
             String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doPost(url, header, param);
+            String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------reg()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -210,7 +212,7 @@ public class httpClientTest {
     }
 
     public static boolean loginByPass(String sessionId, String pass) {
-        String url = "http://localhost:8080/account/loginByPass";
+        String url = HOST+"account/loginByPass";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
         header.put("platform", PlatformConstant.ANDROID);
@@ -230,7 +232,7 @@ public class httpClientTest {
 
             String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doPost(url, header, param);
+            String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------loginByPass()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -244,7 +246,7 @@ public class httpClientTest {
     }
 
     public static boolean logout(String sessionId) {
-        String url = "http://localhost:8080/account/logout";
+        String url = HOST+"account/logout";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
         header.put("platform", PlatformConstant.ANDROID);
@@ -260,7 +262,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
             String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doPost(url, header, param);
+            String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------logout()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
