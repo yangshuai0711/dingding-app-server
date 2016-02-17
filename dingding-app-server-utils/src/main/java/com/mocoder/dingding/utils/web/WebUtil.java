@@ -97,6 +97,7 @@ public class WebUtil {
      * @throws IOException
      */
     public static void writeResponse(HttpServletResponse response, CommonResponse result) throws IOException {
+        response.setContentType("text/json;utf-8");
         PrintWriter out = response.getWriter();
         out.write(JsonUtil.toString(result));
         out.flush();
