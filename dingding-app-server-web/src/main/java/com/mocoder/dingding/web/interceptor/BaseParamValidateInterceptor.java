@@ -3,17 +3,16 @@ package com.mocoder.dingding.web.interceptor;
 import com.mocoder.dingding.constants.*;
 import com.mocoder.dingding.enums.ErrorTypeEnum;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.utils.encryp.EncryptUtils;
 import com.mocoder.dingding.utils.web.RedisUtil;
 import com.mocoder.dingding.utils.web.WebUtil;
 import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -54,9 +53,9 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
             resp.setMsg("参数deviceId取值不正确");
-        } else if(!validateSessionId(request,req.getSessionid())){
+        } else if(!validateSessionId(request,req)){
                 resp = new CommonResponse();
-                resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_SESSION_ABSENT);
+                resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_SESSION_ERROR);
                 resp.setData(UUID.randomUUID().toString());
                 resp.setMsg("参数sessionId取值不正确");
         }
@@ -73,16 +72,22 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
         return true;
     }
 
-    private boolean validateSessionId(HttpServletRequest request,String sessionid) {
+    private boolean validateSessionId(HttpServletRequest request, CommonRequest req) {
         String uri = request.getRequestURI().replace(request.getContextPath(),"");
         if("/param/getSessionId".equals(uri)) {
             return true;
         }
-        if(sessionid==null){
+        String sessionId = req.getSessionid();
+        if(sessionId==null){
             return false;
         }
-        RedisRequestSession session = new RedisRequestSession(sessionid, appSessionExpireDays *24*60);
-        if(RedisUtil.getString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionid,null)!=null){
+        String digested = EncryptUtils.md5(req.getDeviceid());
+        String prefix = new StringBuffer(digested.substring(3,7)).append('-').append(digested.substring(9, 13)).toString();
+        if(!sessionId.startsWith(prefix)){
+            return false;
+        }
+        RedisRequestSession session = new RedisRequestSession(sessionId, appSessionExpireDays *24*60);
+        if(RedisUtil.getString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionId,null)!=null){
             request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION,session);
             return true;
         }

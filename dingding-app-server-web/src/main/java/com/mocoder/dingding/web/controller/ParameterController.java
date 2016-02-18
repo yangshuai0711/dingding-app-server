@@ -2,15 +2,14 @@ package com.mocoder.dingding.web.controller;
 
 import com.mocoder.dingding.constants.RedisKeyConstant;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.utils.encryp.EncryptUtils;
 import com.mocoder.dingding.utils.web.RedisUtil;
+import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
-import com.mocoder.dingding.web.annotation.ValidateBody;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -22,9 +21,12 @@ public class ParameterController {
 
     @RequestMapping("getSessionId")
     @ResponseBody
-    public CommonResponse<String> loginByPassword(@ValidateBody Map<String,String> body,HttpServletRequest request,RedisRequestSession session){
+    public CommonResponse<String> getSessionId(CommonRequest request,RedisRequestSession session){
         CommonResponse<String> response = new CommonResponse<String>();
-        String sessionId = UUID.randomUUID().toString();
+        String uuid = UUID.randomUUID().toString();
+        String digested = EncryptUtils.md5(request.getDeviceid());
+        String sessionId=new StringBuffer(digested.substring(3,7)).append('-').append(digested.substring(9, 13)).append('-').append(uuid).toString();
+        //临时保存sessioId，用于验证用户请求使用的sessionId为系统分配的
         RedisUtil.setString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionId,"ok",60*30L);
         response.setCode(0);
         response.setData(sessionId);

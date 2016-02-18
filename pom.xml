@@ -36,6 +36,7 @@
         <commons-beanutils.version>1.8.3</commons-beanutils.version>
         <commons-digester.version>2.1</commons-digester.version>
         <commons-httpclient.version>3.1</commons-httpclient.version>
+        <commons-codec.version>1.9</commons-codec.version>
         <!--reflection-->
         <aspectj.version>1.6.11</aspectj.version>
         <cglib.version>3.1</cglib.version>
@@ -199,6 +200,11 @@
                 <groupId>commons-digester</groupId>
                 <artifactId>commons-digester</artifactId>
                 <version>${commons-digester.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-httpclient</groupId>

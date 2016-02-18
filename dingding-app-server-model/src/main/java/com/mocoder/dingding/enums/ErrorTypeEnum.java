@@ -9,7 +9,7 @@ public enum ErrorTypeEnum {
     SYSTEM_ENV_EXCEPTION(11,"系统环境异常","系统繁忙，请重试"),
 
     INPUT_PARAMETER_VALIDATE_ERROR(20,"参数校验错误","系统繁忙，请重试"),
-    INPUT_PARAMETER_SESSION_ABSENT(-20,"参数sessionId为空","系统繁忙，请重试"),
+    INPUT_PARAMETER_SESSION_ERROR(-20,"参数sessionId为空","系统繁忙，请重试"),
     INPUT_PARAMETER_PARSE_ERROR(21,"入参解析错误","系统繁忙，请重试"),
 
     VALIDATE_CODE_ERROR(30,"验证码不正确","验证码输入有误，请重试"),

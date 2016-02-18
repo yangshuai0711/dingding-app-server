@@ -1,14 +1,15 @@
 package com.mocoder.dingding.web.util;
 
+import com.mocoder.dingding.constants.EncryptionConstant;
 import com.mocoder.dingding.constants.RequestAttributeKeyConstant;
 import com.mocoder.dingding.enums.ErrorTypeEnum;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.utils.encryp.EncryptUtils;
 import com.mocoder.dingding.utils.web.JsonUtil;
 import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.web.annotation.RequiredParam;
 import com.mocoder.dingding.web.annotation.ValidateBody;
 import com.mocoder.dingding.web.exception.ParameterValidateException;
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.MethodParameter;
@@ -17,7 +18,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import sun.misc.BASE64Decoder;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -45,25 +45,12 @@ public class RequestArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         ValidateBody annotation = methodParameter.getParameterAnnotation(ValidateBody.class);
         if (annotation != null) {
-            BodyAlgorithmEnum[] algorithm = annotation.algorithm();
+            BodyAlgorithmEnum[] algorithms = annotation.algorithm();
             String paramName = annotation.value();
             String[] requiredFields = annotation.requiredAttrs();
             if (StringUtils.isNotBlank(paramName) && StringUtils.isNotBlank(webRequest.getParameter(paramName))) {
-                String bodyString = webRequest.getParameter(paramName);
-                if(algorithm.length>0){
-                    for (BodyAlgorithmEnum e:algorithm){
-                        if (BodyAlgorithmEnum.BASE64==e) {
-                            try {
-                                BASE64Decoder decoder = new BASE64Decoder();
-                                bodyString = new String(decoder.decodeBuffer(bodyString), "utf-8");
-                            } catch (IOException e1) {
-                                ParameterValidateException exception = new ParameterValidateException();
-                                exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR,"请求体解密失败");
-                                throw exception;
-                            }
-                        }
-                    }
-                }
+                String encBody = webRequest.getParameter(paramName);
+                String bodyString = getDecodedBody(encBody, algorithms);
                 Object obj = null;
                 try {
                     obj = JsonUtil.toObject(bodyString, methodParameter.getParameterType());
@@ -87,9 +74,41 @@ public class RequestArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     /**
+     * 解密body
+     * @param encBody 加密的body字符串
+     * @param algorithms 加密算法列表
+     * @return 返回解密后的body字符串
+     * @throws ParameterValidateException
+     */
+    private String getDecodedBody(String encBody, BodyAlgorithmEnum[] algorithms) throws ParameterValidateException {
+        if(algorithms.length>0){
+            for (BodyAlgorithmEnum alg:algorithms){
+                if (BodyAlgorithmEnum.BASE64==alg) {
+                    try {
+                        encBody = EncryptUtils.base64Decode(encBody);
+                    } catch (Exception e1) {
+                        ParameterValidateException exception = new ParameterValidateException();
+                        exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR,"请求体解密失败");
+                        throw exception;
+                    }
+                }else if (BodyAlgorithmEnum.DES==alg) {
+                    try {
+                        encBody = EncryptUtils.desDecode(EncryptionConstant.DES_ENCRYPT_PRIVATE_KEY,encBody);
+                    } catch (Exception e1) {
+                        ParameterValidateException exception = new ParameterValidateException();
+                        exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR,"请求体解密失败");
+                        throw exception;
+                    }
+                }
+            }
+        }
+        return encBody;
+    }
+
+    /**
      * 校验必须参数
-     * @param obj
-     * @param requiredField
+     * @param obj 需要校验的bean
+     * @param requiredField 必须的属性名
      * @throws Exception
      */
     private void validParam(Object obj, String[] requiredField) throws Exception{

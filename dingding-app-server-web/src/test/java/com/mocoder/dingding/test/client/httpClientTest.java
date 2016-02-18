@@ -3,13 +3,12 @@ package com.mocoder.dingding.test.client;
 import com.mocoder.dingding.constants.AppVersionConstant;
 import com.mocoder.dingding.constants.EncryptionConstant;
 import com.mocoder.dingding.constants.PlatformConstant;
+import com.mocoder.dingding.utils.encryp.EncryptUtils;
 import com.mocoder.dingding.utils.web.JsonUtil;
 import com.mocoder.dingding.vo.CommonResponse;
 import com.mocoder.dingding.vo.LoginAccountRequest;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.util.DigestUtils;
-import sun.misc.BASE64Encoder;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -62,11 +61,11 @@ public class httpClientTest {
         Map<String, String> param = new HashMap<String, String>();
         try {
             String body = "{\"mobile\":\"15652301160\"}";
-            BASE64Encoder encoder = new BASE64Encoder();
-            body = encoder.encode(body.getBytes("utf-8"));
+            
+            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
-            String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
+            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------getSessionId()--------");
@@ -92,11 +91,11 @@ public class httpClientTest {
         Map<String, String> param = new HashMap<String, String>();
         try {
             String body = "{\"mobile\":\"15652301160\"}";
-            BASE64Encoder encoder = new BASE64Encoder();
-            body = encoder.encode(body.getBytes("utf-8"));
+            
+            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
-            String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
+            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------getLoginCode()--------");
@@ -122,11 +121,11 @@ public class httpClientTest {
         Map<String, String> param = new HashMap<String, String>();
         try {
             String body = "{\"mobile\":\"15652301160\"}";
-            BASE64Encoder encoder = new BASE64Encoder();
-            body = encoder.encode(body.getBytes("utf-8"));
+            
+            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
-            String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
+            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------getRegCode()--------");
@@ -157,12 +156,12 @@ public class httpClientTest {
         request.setVerifyCode(verifyCode);
         try {
             String body = JsonUtil.toString(request);
-            BASE64Encoder encoder = new BASE64Encoder();
-            body = encoder.encode(body.getBytes("utf-8"));
+            
+            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
+            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
 
-            String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
+            String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------reg()--------");
@@ -191,12 +190,12 @@ public class httpClientTest {
         request.setVerifyCode(verifyCode);
         try {
             String body = JsonUtil.toString(request);
-            BASE64Encoder encoder = new BASE64Encoder();
-            body = encoder.encode(body.getBytes("utf-8"));
+            
+            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
+            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
 
-            String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
+            String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------reg()--------");
@@ -225,12 +224,12 @@ public class httpClientTest {
         request.setPassword(pass);
         try {
             String body = JsonUtil.toString(request);
-            BASE64Encoder encoder = new BASE64Encoder();
-            body = encoder.encode(body.getBytes("utf-8"));
+            
+            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
+            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
 
-            String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
+            String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------loginByPass()--------");
@@ -256,11 +255,11 @@ public class httpClientTest {
         Map<String, String> param = new HashMap<String, String>();
         try {
             String body = "{\"mobile\":\"15652301160\"}";
-            BASE64Encoder encoder = new BASE64Encoder();
-            body = encoder.encode(body.getBytes("utf-8"));
+            
+            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.PUBLIC_ENCRYPTION_KEY;
-            String targetToken = DigestUtils.md5DigestAsHex(tmpStr.getBytes("utf-8"));
+            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doHttpPost(url, header, param);
             System.out.println("--------logout()--------");

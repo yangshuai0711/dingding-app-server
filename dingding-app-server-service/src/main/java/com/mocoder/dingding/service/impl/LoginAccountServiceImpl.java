@@ -8,6 +8,7 @@ import com.mocoder.dingding.model.LoginAccountCriteria;
 import com.mocoder.dingding.rpc.SmsServiceWrap;
 import com.mocoder.dingding.service.LoginAccountService;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
+import com.mocoder.dingding.utils.encryp.EncryptUtils;
 import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
 import com.mocoder.dingding.vo.LoginAccountRequest;
@@ -15,10 +16,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Random;
 
@@ -47,24 +46,18 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         }
         LoginAccount record = queryLoginAccounts(mobile);
         if (record != null) {
-            try {
-                if (DigestUtils.md5DigestAsHex(password.getBytes("utf-8")).equals(record.getPassword())) {
-                    record.setPassword(null);
-                    session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, record);
-                    session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
-                    session.saveUserSessionId(request, record.getMobile());
-                    response.setData(record);
-                    response.setCode(0);
-                    response.setMsg("成功");
-                    response.setUiMsg("登录成功");
-                    return response;
-                } else {
-                    response.resolveErrorInfo(ErrorTypeEnum.PASS_LOGIN_ERROR);
-                    return response;
-                }
-            } catch (UnsupportedEncodingException e) {
-                log.error("密码登录-异常：不支持的编码格式 utf-8", e);
-                response.resolveErrorInfo(ErrorTypeEnum.SYSTEM_ENV_EXCEPTION);
+            if (EncryptUtils.md5(password).equals(record.getPassword())) {
+                record.setPassword(null);
+                session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, record);
+                session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
+                session.saveUserSessionId(request, record.getMobile());
+                response.setData(record);
+                response.setCode(0);
+                response.setMsg("成功");
+                response.setUiMsg("登录成功");
+                return response;
+            } else {
+                response.resolveErrorInfo(ErrorTypeEnum.PASS_LOGIN_ERROR);
                 return response;
             }
         } else {
@@ -137,13 +130,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             response.resolveErrorInfo(ErrorTypeEnum.REG_DUPLICATE_ERROR);
             return response;
         }
-        try {
-            account.setPassword(DigestUtils.md5DigestAsHex(account.getPassword().getBytes("utf-8")));
-        } catch (UnsupportedEncodingException e) {
-            log.error("密码登录-异常：不支持的编码格式 utf-8", e);
-            response.resolveErrorInfo(ErrorTypeEnum.SYSTEM_ENV_EXCEPTION);
-            return response;
-        }
+        account.setPassword(EncryptUtils.md5(body.getPassword()));
         loginAccountMapper.insertSelective(account);
         account.setPassword(null);
         session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, account);
@@ -213,7 +200,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         } catch (Exception e) {
             response.resolveErrorInfo(ErrorTypeEnum.SYSTEM_EXCEPTION);
             response.setMsg("销毁session失败，redis操作异常");
-            log.error("账户注销-异常：销毁session失败，redis操作异常",e);
+            log.error("账户注销-异常：销毁session失败，redis操作异常", e);
             return response;
         }
         response.setCode(0);

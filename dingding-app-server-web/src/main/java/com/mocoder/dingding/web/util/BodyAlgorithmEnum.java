@@ -5,7 +5,8 @@ package com.mocoder.dingding.web.util;
  */
 public enum BodyAlgorithmEnum {
 
-    BASE64("base64")
+    BASE64("base64"),
+    DES("des")
     ;
     private String name;
 

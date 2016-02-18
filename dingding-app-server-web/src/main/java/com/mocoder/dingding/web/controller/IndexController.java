@@ -1,15 +1,12 @@
 package com.mocoder.dingding.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.io.UnsupportedEncodingException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * XXX控制器
@@ -35,8 +32,4 @@ public class IndexController{
 		return result;
 	}
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        String res = DigestUtils.md5DigestAsHex("123".getBytes("utf-8"));
-        System.out.printf(res);
-    }
 }
