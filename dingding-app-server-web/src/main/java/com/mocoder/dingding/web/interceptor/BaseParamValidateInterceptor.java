@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * 基本参数拦截器
@@ -56,7 +55,6 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
         } else if(!validateSessionId(request,req)){
                 resp = new CommonResponse();
                 resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_SESSION_ERROR);
-                resp.setData(UUID.randomUUID().toString());
                 resp.setMsg("参数sessionId取值不正确");
         }
         if(resp!=null){
