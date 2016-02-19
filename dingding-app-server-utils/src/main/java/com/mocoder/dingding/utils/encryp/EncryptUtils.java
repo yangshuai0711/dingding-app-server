@@ -46,12 +46,12 @@ public class EncryptUtils {
         if (data == null)
             return null;
         try {
-            DESKeySpec dks = new DESKeySpec(key.getBytes());
+            DESKeySpec dks = new DESKeySpec(StringUtils.getBytesUtf8(key));
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             //key的长度不能够小于8位字节
             Key secretKey = keyFactory.generateSecret(dks);
             Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-            IvParameterSpec iv = new IvParameterSpec("12345678".getBytes());
+            IvParameterSpec iv = new IvParameterSpec(StringUtils.getBytesUtf8("12345678"));
             AlgorithmParameterSpec paramSpec = iv;
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, paramSpec);
             byte[] bytes = cipher.doFinal(StringUtils.getBytesUtf8(data));
@@ -73,12 +73,12 @@ public class EncryptUtils {
         if (data == null)
             return null;
         try {
-            DESKeySpec dks = new DESKeySpec(key.getBytes());
+            DESKeySpec dks = new DESKeySpec(StringUtils.getBytesUtf8(key));
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             //key的长度不能够小于8位字节
             Key secretKey = keyFactory.generateSecret(dks);
             Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-            IvParameterSpec iv = new IvParameterSpec("12345678".getBytes());
+            IvParameterSpec iv = new IvParameterSpec(StringUtils.getBytesUtf8("12345678"));
             AlgorithmParameterSpec paramSpec = iv;
             cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);
             byte[] bytes = Hex.decodeHex(data.toCharArray());
