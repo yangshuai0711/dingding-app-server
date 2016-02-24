@@ -24,7 +24,10 @@ import java.util.Scanner;
  */
 public class httpClientTest {
 
-    private static final String HOST = "http://localhost:8080";
+    private static final String HOST = "https://mocoder.com/dingding";
+
+//    private static final String HOST = "http://mocoder.com:8080/dingding-app-server";
+
 
     @Test
     public void testGetLoginCode() {
@@ -67,7 +70,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doHttpPost(url, header, param);
+            String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------getSessionId()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -97,7 +100,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doHttpPost(url, header, param);
+            String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------getLoginCode()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -127,7 +130,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doHttpPost(url, header, param);
+            String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------getRegCode()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -163,7 +166,7 @@ public class httpClientTest {
 
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doHttpPost(url, header, param);
+            String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------reg()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -197,7 +200,7 @@ public class httpClientTest {
 
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doHttpPost(url, header, param);
+            String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------reg()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -231,7 +234,7 @@ public class httpClientTest {
 
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doHttpPost(url, header, param);
+            String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------loginByPass()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
@@ -261,7 +264,7 @@ public class httpClientTest {
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
-            String response = HttpClientUtil.doHttpPost(url, header, param);
+            String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------logout()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
