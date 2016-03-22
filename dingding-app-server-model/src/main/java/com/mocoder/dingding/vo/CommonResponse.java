@@ -8,17 +8,16 @@ import java.io.Serializable;
  * Created by yangshuai3 on 2016/1/26.
  */
 public class CommonResponse<T> implements Serializable {
-    private Integer code;
+    private String code;
     private String msg;
-    private String uiMsg;
-    private ErrorTypeEnum errorType;
     private T data;
 
-    public Integer getCode() {
+
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -30,27 +29,9 @@ public class CommonResponse<T> implements Serializable {
         this.msg = msg;
     }
 
-    public String getUiMsg() {
-        return uiMsg;
-    }
-
-    public void setUiMsg(String uiMsg) {
-        this.uiMsg = uiMsg;
-    }
-
-    public ErrorTypeEnum getErrorType() {
-        return errorType;
-    }
-
-    public void setErrorType(ErrorTypeEnum errorType) {
-        this.errorType = errorType;
-    }
-
     public void resolveErrorInfo(ErrorTypeEnum errorType) {
-        this.code=errorType.getCode();
-        this.msg=errorType.getMsg();
-        this.uiMsg=errorType.getUiMsg();
-        this.errorType = errorType;
+        this.code=String.valueOf(errorType.getCode());
+        this.msg =errorType.getUiMsg();
     }
 
     public T getData() {

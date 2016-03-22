@@ -63,10 +63,10 @@ public class httpClientTest {
         header.put("sessionid", "");
         Map<String, String> param = new HashMap<String, String>();
         try {
-            String body = "{\"mobile\":\"15652301160\"}";
+            String body = "";
             
             body = EncryptUtils.base64Encode(body);
-            param.put("body", body);
+            param.put("body", "");
             String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);

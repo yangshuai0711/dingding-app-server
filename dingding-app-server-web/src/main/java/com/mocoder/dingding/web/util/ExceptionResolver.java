@@ -21,13 +21,12 @@ public class ExceptionResolver extends DefaultHandlerExceptionResolver{
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         try {
+            log.error("异常处理器:request:"+request.getRequestURI(),ex);
             if(ex instanceof ParameterValidateException){
                 WebUtil.writeResponse(response,((ParameterValidateException) ex).getResponse());
             }else{
-                log.error("异常处理器:未知程序异常:request:"+request.getRequestURI(),ex);
                 CommonResponse commonResp = new CommonResponse();
                 commonResp.resolveErrorInfo(ErrorTypeEnum.SYSTEM_EXCEPTION);
-                commonResp.setMsg(ex.getMessage());
                 WebUtil.writeResponse(response,commonResp);
             }
             return new ModelAndView();

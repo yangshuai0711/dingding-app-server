@@ -28,7 +28,7 @@ public class EncryptParameterValidateInterceptor extends BaseParamValidateInterc
         CommonResponse resp = new CommonResponse();
         if (StringUtils.isBlank(req.getSign())) {
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
-            resp.setMsg("参数sign不能为空");
+            logErrorInfo(request,"参数sign不能为空");
             try {
                 WebUtil.writeResponse(response, resp);
             } catch (IOException e1) {
@@ -47,7 +47,7 @@ public class EncryptParameterValidateInterceptor extends BaseParamValidateInterc
         targetToken = EncryptUtils.md5(tmpStr);
         if (!req.getSign().equals(targetToken)) {
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
-            resp.setMsg("参数sign验证失败");
+            logErrorInfo(request,"参数sign验证失败");
             try {
                 WebUtil.writeResponse(response, resp);
             } catch (IOException e1) {

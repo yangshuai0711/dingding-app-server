@@ -20,7 +20,8 @@
     </bean>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
-    <context:component-scan base-package="com.mocoder.dingding"/>
+    <context:component-scan base-package="com.mocoder.dingding"
+            />
 
     <import resource="spring-config-executor.xml"/>
     <import resource="spring-config-datasource.xml"/>

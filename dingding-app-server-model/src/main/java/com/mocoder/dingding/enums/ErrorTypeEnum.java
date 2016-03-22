@@ -13,7 +13,8 @@ public enum ErrorTypeEnum {
     INPUT_PARAMETER_PARSE_ERROR(21,"入参解析错误","系统繁忙，请重试"),
 
     VALIDATE_CODE_ERROR(30,"验证码不正确","验证码输入有误，请重试"),
-    NOT_LOGIN(-31,"未登录或者会话过期","您的登录信息已过期，请重新登录"),
+    VALIDATE_CODE_RETRY_ERROR(-30,"验证码不正确","验证码输入错误次数超过限制，请重新获取验证码"),
+    NOT_LOGIN(-31,"未登录","您的登录信息已过期，请重新登录"),
     LOGIN_DUPLICATE_ERROR(31,"重复登录,session未过期,无需登录" ,"您已经在线,无需再次登录" ),
     REG_DUPLICATE_ERROR(32,"重复注册，手机号码已注册" ,"您的手机号码已注册" ),
     PASS_LOGIN_ERROR(33,"密码错误","账号或密码错误"),

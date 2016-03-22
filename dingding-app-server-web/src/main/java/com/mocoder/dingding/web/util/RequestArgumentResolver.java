@@ -55,8 +55,8 @@ public class RequestArgumentResolver implements HandlerMethodArgumentResolver {
                 try {
                     obj = JsonUtil.toObject(bodyString, methodParameter.getParameterType());
                 } catch (IOException e) {
-                    ParameterValidateException exception = new ParameterValidateException();
-                    exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR,"请求体解析异常");
+                    ParameterValidateException exception = new ParameterValidateException("请求体解析异常",e);
+                    exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR);
                     throw exception;
                 }
                 validParam(obj,requiredFields);
@@ -87,16 +87,16 @@ public class RequestArgumentResolver implements HandlerMethodArgumentResolver {
                     try {
                         encBody = EncryptUtils.base64Decode(encBody);
                     } catch (Exception e1) {
-                        ParameterValidateException exception = new ParameterValidateException();
-                        exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR,"请求体解密失败");
+                        ParameterValidateException exception = new ParameterValidateException("请求体解密失败",e1);
+                        exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR);
                         throw exception;
                     }
                 }else if (BodyAlgorithmEnum.DES==alg) {
                     try {
                         encBody = EncryptUtils.desDecode(EncryptionConstant.DES_ENCRYPT_PRIVATE_KEY,encBody);
                     } catch (Exception e1) {
-                        ParameterValidateException exception = new ParameterValidateException();
-                        exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR,"请求体解密失败");
+                        ParameterValidateException exception = new ParameterValidateException("请求体解密失败",e1);
+                        exception.setErrorType(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR);
                         throw exception;
                     }
                 }

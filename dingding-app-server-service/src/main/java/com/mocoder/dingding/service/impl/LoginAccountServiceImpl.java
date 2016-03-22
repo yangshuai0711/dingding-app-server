@@ -53,8 +53,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
                 session.saveUserSessionId(request, record.getMobile());
                 response.setData(record);
                 response.setCode(0);
-                response.setMsg("成功");
-                response.setUiMsg("登录成功");
+                response.setMsg("登录成功");
                 return response;
             } else {
                 response.resolveErrorInfo(ErrorTypeEnum.PASS_LOGIN_ERROR);
@@ -90,8 +89,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
                 record.setPassword(null);
                 response.setData(record);
                 response.setCode(0);
-                response.setMsg("成功");
-                response.setUiMsg("登录成功");
+                response.setMsg("登录成功");
                 session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, record);
                 session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
                 session.saveUserSessionId(request, record.getMobile());
@@ -119,7 +117,6 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             PropertyUtils.copyProperties(account, body);
         } catch (Exception e) {
             response.resolveErrorInfo(ErrorTypeEnum.SYSTEM_EXCEPTION);
-            response.setMsg("vo属性复制到data model出错");
         }
         if (session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, LoginAccount.class) != null) {
             response.resolveErrorInfo(ErrorTypeEnum.NOT_LOG_OUT_ERROR);
@@ -139,7 +136,6 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         response.setData(account);
         response.setCode(0);
         response.setMsg("注册成功");
-        response.setUiMsg("注册成功");
         return response;
     }
 
@@ -199,13 +195,11 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             session.destroy();
         } catch (Exception e) {
             response.resolveErrorInfo(ErrorTypeEnum.SYSTEM_EXCEPTION);
-            response.setMsg("销毁session失败，redis操作异常");
             log.error("账户注销-异常：销毁session失败，redis操作异常", e);
             return response;
         }
         response.setCode(0);
-        response.setMsg("成功");
-        response.setUiMsg("注销成功");
+        response.setMsg("注销成功");
         return response;
     }
 }

@@ -1,5 +1,6 @@
 package com.mocoder.dingding.utils.encryp;
 
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.StringUtils;
@@ -27,11 +28,11 @@ public class EncryptUtils {
     }
 
     public static String base64Encode(String src) {
-        return Base64.encodeBase64String(StringUtils.getBytesUtf8(src));
+        return Hex.encodeHexString(Base64.encodeBase64(StringUtils.getBytesUtf8(src)));
     }
 
-    public static String base64Decode(String src) {
-        return StringUtils.newStringUtf8(Base64.decodeBase64(StringUtils.getBytesUtf8(src)));
+    public static String base64Decode(String src) throws DecoderException {
+        return StringUtils.newStringUtf8(Base64.decodeBase64(Hex.decodeHex(src.toCharArray())));
     }
 
     /**
@@ -88,11 +89,10 @@ public class EncryptUtils {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DecoderException {
         String str = base64Encode("[{\"mobile\":\"1565230哈哈60\",\"age\":3]}");
         System.out.println(str);
         System.out.println(base64Decode(str));
-
         String str2 = desEncode("123123123","[{\"mobile\":\"1565230哈哈60\",\"age\":3]}");
         System.out.println(str2);
         System.out.println(desDecode("123123123",str2));

@@ -35,27 +35,27 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
         if(req==null){
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_PARSE_ERROR);
-            resp.setMsg("获取请求头内容失败");
+            logErrorInfo(request, "获取请求头内容失败");
         }else if(req.getAppversion()==null|| !AppVersionConstant.VERSION_1_0_0.equals(req.getAppversion())){
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
-            resp.setMsg("参数appVersion取值不正确");
+            logErrorInfo(request, "参数appVersion取值不正确");
         }else if(req.getPlatform()==null|| (!PlatformConstant.ANDROID.equals(req.getPlatform())&&!PlatformConstant.IOS.equals(req.getPlatform())&&!PlatformConstant.HTML5.equals(req.getPlatform()))){
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
-            resp.setMsg("参数platform取值不正确");
+            logErrorInfo(request, "参数platform取值不正确");
         }else if(!validateTimeStamp(req.getTimestamp())){
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
-            resp.setMsg("参数timeStamp取值不正确");
+            logErrorInfo(request, "参数timeStamp取值不正确");
         }else if(!validateDeviceId(req.getDeviceid())){
             resp = new CommonResponse();
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
-            resp.setMsg("参数deviceId取值不正确");
+            logErrorInfo(request, "参数deviceId取值不正确");
         } else if(!validateSessionId(request,req)){
                 resp = new CommonResponse();
                 resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_SESSION_ERROR);
-                resp.setMsg("参数sessionId取值不正确");
+                logErrorInfo(request, "参数sessionId取值不正确");
         }
         if(resp!=null){
             try {
@@ -122,5 +122,9 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
 //            return false;
 //        }
         return true;
+    }
+    
+    protected void logErrorInfo(HttpServletRequest request,String msg){
+        logger.error("参数拦截器:{}，uri:{}",msg,request.getRequestURI());
     }
 }
