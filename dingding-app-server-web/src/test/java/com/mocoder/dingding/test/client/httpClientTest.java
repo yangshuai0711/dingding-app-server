@@ -24,11 +24,11 @@ import java.util.Scanner;
  */
 public class httpClientTest {
 
-    private static final String HOST = "https://mocoder.com/dingding";
+//    private static final String HOST = "https://mocoder.com/dingding";
 
 //    private static final String HOST = "http://mocoder.com:8080/dingding-app-server";
 
-
+    private static final String HOST = "http://localhost:8080";
     @Test
     public void testGetLoginCode() {
         String sessionId = getSessionId();
@@ -67,14 +67,14 @@ public class httpClientTest {
             
             body = EncryptUtils.base64Encode(body);
             param.put("body", "");
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String tmpStr = /*param.get("body") +*/ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------getSessionId()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
-            if (commonResponse.getCode() == 0) {
+            if (commonResponse.getCode().equals("0")) {
                 return (String) commonResponse.getData();
             }
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class httpClientTest {
             System.out.println("--------getLoginCode()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
-            if (commonResponse.getCode() == 0) {
+            if (commonResponse.getCode().equals("0")) {
                 return true;
             }
         } catch (Exception e) {
@@ -117,7 +117,7 @@ public class httpClientTest {
         String url = HOST + "/account/getRegVerifyCode";
         Map<String, String> header = new HashMap<String, String>();
         header.put("appversion", AppVersionConstant.VERSION_1_0_0);
-        header.put("platform", PlatformConstant.ANDROID);
+        header.put("platform", PlatformConstant.IOS);
         header.put("timestamp", String.valueOf(new Date().getTime()));
         header.put("deviceid", "123456");
         header.put("sessionid", sessionId);
@@ -127,14 +127,14 @@ public class httpClientTest {
             
             body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String tmpStr = /*param.get("body") +*/ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doPost(url, header, param);
             System.out.println("--------getRegCode()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
-            if (commonResponse.getCode() == 0) {
+            if (commonResponse.getCode().equals("0")) {
                 return true;
             }
         } catch (Exception e) {
@@ -170,7 +170,7 @@ public class httpClientTest {
             System.out.println("--------reg()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
-            if (commonResponse.getCode().intValue() == 0) {
+            if (commonResponse.getCode().equals("0")) {
                 return true;
             }
         } catch (Exception e) {
@@ -204,7 +204,7 @@ public class httpClientTest {
             System.out.println("--------reg()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
-            if (commonResponse.getCode().intValue() == 0) {
+            if (commonResponse.getCode().equals("0")) {
                 return true;
             }
         } catch (Exception e) {
@@ -238,7 +238,7 @@ public class httpClientTest {
             System.out.println("--------loginByPass()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
-            if (commonResponse.getCode().intValue() == 0) {
+            if (commonResponse.getCode().equals("0")) {
                 return true;
             }
         } catch (Exception e) {
@@ -268,7 +268,7 @@ public class httpClientTest {
             System.out.println("--------logout()--------");
             System.out.println(response);
             CommonResponse commonResponse = JsonUtil.toObject(response, CommonResponse.class);
-            if (commonResponse.getCode() == 0) {
+            if (commonResponse.getCode().equals("0")) {
                 return true;
             }
         } catch (Exception e) {

@@ -28,7 +28,7 @@ public class ParameterController {
         String sessionId=new StringBuffer(digested.substring(3,7)).append('-').append(digested.substring(9, 13)).append('-').append(uuid).toString();
         //临时保存sessioId，用于验证用户请求使用的sessionId为系统分配的
         RedisUtil.setString(RedisKeyConstant.TEMP_SESSION_ID_PREFIX+sessionId,"ok",60*30L);
-        response.setCode(0);
+        response.setCode("0");
         response.setData(sessionId);
         return response;
     }

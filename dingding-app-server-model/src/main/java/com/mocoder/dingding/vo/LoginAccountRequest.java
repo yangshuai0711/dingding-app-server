@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 public class LoginAccountRequest implements Serializable {
 
-    private Integer id;
-
     private String mobile;
 
     private String nickName;
@@ -15,14 +13,6 @@ public class LoginAccountRequest implements Serializable {
     private String verifyCode;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getMobile() {
         return mobile;

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  * 基本参数拦截器
@@ -26,6 +27,16 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
     @Override
     protected boolean validate(HttpServletRequest request, HttpServletResponse response) {
         CommonRequest req = null;
+        Enumeration headerNames = request.getHeaderNames();
+        StringBuilder stringBuilder = new StringBuilder("reqeust headers:\n");
+        while(headerNames.hasMoreElements()){
+            String name = (String) headerNames.nextElement();
+            String value = request.getHeader(name);
+            stringBuilder.append(name).append(": ").append(value).append("\n");
+        }
+        stringBuilder.append("request body:\n");
+        stringBuilder.append(request.getParameterMap().toString());
+        logger.info(stringBuilder.toString());
         try {
             req = WebUtil.HeaderToSimpleBean(request, CommonRequest.class);
         } catch (Exception e){
@@ -72,6 +83,7 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
 
     private boolean validateSessionId(HttpServletRequest request, CommonRequest req) {
         String uri = request.getRequestURI().replace(request.getContextPath(),"");
+        uri=uri.replaceAll("//","/");
         if("/param/getSessionId".equals(uri)) {
             return true;
         }

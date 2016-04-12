@@ -1,5 +1,7 @@
 package com.mocoder.dingding.test.client;
 
+import com.mocoder.dingding.utils.encryp.EncryptUtils;
+
 import javax.net.ssl.*;
 import java.io.*;
 import java.net.*;
@@ -203,7 +205,16 @@ public class HttpClientUtil {
         } catch (Exception e) {
             new RuntimeException(e);
         }
+
+
+
     }
 
+
+    public static void main(String[] args) {
+        String tmpStr = "14589071547192919-5308-35d3d1ec-a2a7-48b7-b7ce-abafaf3be4ec66666";
+        String targetToken = EncryptUtils.md5(tmpStr);
+        System.out.println(targetToken);
+    }
 
 }

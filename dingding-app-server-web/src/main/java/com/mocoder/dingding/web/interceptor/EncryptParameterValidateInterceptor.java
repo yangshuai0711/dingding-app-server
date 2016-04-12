@@ -42,12 +42,12 @@ public class EncryptParameterValidateInterceptor extends BaseParamValidateInterc
         if (StringUtils.isBlank(req.getSessionid())) {
             req.setSessionid("");
         }
-        String tmpStr = req.getBody() + req.getTimestamp() + req.getSessionid() + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+        String tmpStr = /*req.getBody()+ */  req.getTimestamp() + req.getSessionid() + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
         String targetToken = null;
         targetToken = EncryptUtils.md5(tmpStr);
         if (!req.getSign().equals(targetToken)) {
             resp.resolveErrorInfo(ErrorTypeEnum.INPUT_PARAMETER_VALIDATE_ERROR);
-            logErrorInfo(request,"参数sign验证失败");
+            logErrorInfo(request,"参数sign验证失败，right:"+targetToken+" input:"+req.getSign());
             try {
                 WebUtil.writeResponse(response, resp);
             } catch (IOException e1) {

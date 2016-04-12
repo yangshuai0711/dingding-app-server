@@ -52,7 +52,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
                 session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
                 session.saveUserSessionId(request, record.getMobile());
                 response.setData(record);
-                response.setCode(0);
+                response.setCode("0");
                 response.setMsg("登录成功");
                 return response;
             } else {
@@ -88,7 +88,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             if (record != null) {
                 record.setPassword(null);
                 response.setData(record);
-                response.setCode(0);
+                response.setCode("0");
                 response.setMsg("登录成功");
                 session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, record);
                 session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
@@ -134,7 +134,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
         session.saveUserSessionId(request, account.getMobile());
         response.setData(account);
-        response.setCode(0);
+        response.setCode("0");
         response.setMsg("注册成功");
         return response;
     }
@@ -155,7 +155,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         String code = String.valueOf(1000 + random.nextInt(8999));
         session.setAttribute(SessionKeyConstant.VERIFY_CODE_KEY, code);
         if (smsServiceWrap.sentRegValidCodeSms(mobile, code)) {
-            response.setCode(0);
+            response.setCode("0");
             return response;
         } else {
             response.resolveErrorInfo(ErrorTypeEnum.SMS_SEND_ERROR);
@@ -176,7 +176,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             String code = String.valueOf(1000 + random.nextInt(8999));
             session.setAttribute(SessionKeyConstant.VERIFY_CODE_KEY, code);
             if (smsServiceWrap.sentRegValidCodeSms(mobile, code)) {
-                response.setCode(0);
+                response.setCode("0");
                 return response;
             } else {
                 response.resolveErrorInfo(ErrorTypeEnum.SMS_SEND_ERROR);
@@ -198,7 +198,7 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             log.error("账户注销-异常：销毁session失败，redis操作异常", e);
             return response;
         }
-        response.setCode(0);
+        response.setCode("0");
         response.setMsg("注销成功");
         return response;
     }
