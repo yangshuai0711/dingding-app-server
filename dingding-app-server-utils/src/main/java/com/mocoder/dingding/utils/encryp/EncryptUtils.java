@@ -1,15 +1,17 @@
 package com.mocoder.dingding.utils.encryp;
 
 import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
+import java.io.IOException;
 import java.security.Key;
 import java.security.spec.AlgorithmParameterSpec;
 
@@ -18,6 +20,10 @@ import java.security.spec.AlgorithmParameterSpec;
  * mail:yangshuai3@jd.com
  */
 public class EncryptUtils {
+
+    private static final BASE64Encoder base64Encoder = new BASE64Encoder();
+    private static final BASE64Decoder base64Decoder = new BASE64Decoder();
+
 
     public static String md5(String sourceStr) {
         return DigestUtils.md5Hex(sourceStr);
@@ -28,11 +34,11 @@ public class EncryptUtils {
     }
 
     public static String base64Encode(String src) {
-        return Hex.encodeHexString(Base64.encodeBase64(StringUtils.getBytesUtf8(src)));
+    return base64Encoder.encode(StringUtils.getBytesUtf8(src));
     }
 
-    public static String base64Decode(String src) throws DecoderException {
-        return StringUtils.newStringUtf8(Base64.decodeBase64(Hex.decodeHex(src.toCharArray())));
+    public static String base64Decode(String src) throws IOException {
+        return StringUtils.newStringUtf8(base64Decoder.decodeBuffer(src));
     }
 
     /**
@@ -92,7 +98,10 @@ public class EncryptUtils {
     public static void main(String[] args) throws DecoderException {
         String str = base64Encode("[{\"mobile\":\"1565230哈哈60\",\"age\":3]}");
         System.out.println(str);
-        System.out.println(base64Decode(str));
+        try {
+            System.out.println(base64Decode(str));
+        } catch (IOException e) {
+        }
         String str2 = desEncode("123123123","[{\"mobile\":\"1565230哈哈60\",\"age\":3]}");
         System.out.println(str2);
         System.out.println(desDecode("123123123",str2));
