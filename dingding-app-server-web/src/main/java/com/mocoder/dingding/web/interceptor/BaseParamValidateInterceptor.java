@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 基本参数拦截器
@@ -28,14 +31,18 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
     protected boolean validate(HttpServletRequest request, HttpServletResponse response) {
         CommonRequest req = null;
         Enumeration headerNames = request.getHeaderNames();
-        StringBuilder stringBuilder = new StringBuilder("reqeust headers:\n");
+        StringBuilder stringBuilder = new StringBuilder("reqeust headers -->>");
         while(headerNames.hasMoreElements()){
             String name = (String) headerNames.nextElement();
             String value = request.getHeader(name);
-            stringBuilder.append(name).append(": ").append(value).append("\n");
+            stringBuilder.append(name).append(": ").append(value).append(",");
         }
-        stringBuilder.append("request body:\n");
-        stringBuilder.append(request.getParameterMap().toString());
+        stringBuilder.append('\n');
+        stringBuilder.append("request body -->>");
+        Set<Map.Entry> set = request.getParameterMap().entrySet();
+        for (Map.Entry ent :set ){
+            stringBuilder.append(ent.getKey()).append(": ").append(Arrays.toString((String[]) ent.getValue())).append(",");
+        }
         logger.info(stringBuilder.toString());
         try {
             req = WebUtil.HeaderToSimpleBean(request, CommonRequest.class);

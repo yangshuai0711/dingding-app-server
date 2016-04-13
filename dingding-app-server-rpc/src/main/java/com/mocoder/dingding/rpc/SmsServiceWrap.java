@@ -20,4 +20,11 @@ public interface SmsServiceWrap {
      * @return
      */
     public boolean sentRegValidCodeSms(String mobileNum,String validCode);
+    /**
+     * 发送重要操作验证码短信
+     * @param validCode
+     * @param mobileNum
+     * @return
+     */
+    public boolean sentRegValidCodeSms(String mobileNum,String validCode,String operate);
 }

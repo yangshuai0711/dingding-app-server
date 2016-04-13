@@ -22,6 +22,8 @@ public enum ErrorTypeEnum {
     NOT_LOG_OUT_ERROR(36,"需要退出登录状态","请先退出登录"),
 
     SMS_SEND_ERROR(40,"短信发送失败","短信发送失败，请稍后再试"),
+
+    USER_OPERATE_NOT_PERMIT(50,"用户没有权限进行此操作","您没有权限进行此操作")
     ;
 
     private Integer code;

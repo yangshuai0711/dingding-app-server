@@ -65,8 +65,8 @@ public class httpClientTest {
         try {
             String body = "";
             
-            body = EncryptUtils.base64Encode(body);
-            param.put("body", "");
+//        TODO    body = EncryptUtils.base64Encode(body);
+            param.put("body",body);
             String tmpStr = /*param.get("body") +*/ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
@@ -95,9 +95,9 @@ public class httpClientTest {
         try {
             String body = "{\"mobile\":\"15652301160\"}";
             
-            body = EncryptUtils.base64Encode(body);
+// TODO            body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String tmpStr =  /*param.get("body") + */ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doPost(url, header, param);
@@ -125,7 +125,7 @@ public class httpClientTest {
         try {
             String body = "{\"mobile\":\"15652301160\"}";
             
-            body = EncryptUtils.base64Encode(body);
+//           TODO  body = EncryptUtils.base64Encode(body);
             param.put("body", body);
             String tmpStr = /*param.get("body") +*/ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
@@ -160,9 +160,9 @@ public class httpClientTest {
         try {
             String body = JsonUtil.toString(request);
             
-            body = EncryptUtils.base64Encode(body);
+//          TODO   body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String tmpStr =  /*param.get("body") + */ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
 
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
@@ -194,9 +194,9 @@ public class httpClientTest {
         try {
             String body = JsonUtil.toString(request);
             
-            body = EncryptUtils.base64Encode(body);
+//      TODO       body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String tmpStr =  /*param.get("body") + */ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
 
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
@@ -228,9 +228,9 @@ public class httpClientTest {
         try {
             String body = JsonUtil.toString(request);
             
-            body = EncryptUtils.base64Encode(body);
+//           TODO  body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String tmpStr =  /*param.get("body") + */ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
 
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
@@ -259,9 +259,9 @@ public class httpClientTest {
         try {
             String body = "{\"mobile\":\"15652301160\"}";
             
-            body = EncryptUtils.base64Encode(body);
+//        TODO    body = EncryptUtils.base64Encode(body);
             param.put("body", body);
-            String tmpStr = param.get("body") + header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
+            String tmpStr =  /*param.get("body") + */ header.get("timestamp") + header.get("sessionid") + EncryptionConstant.HEADER_PARAM_SIGN_PRIVATE_KEY;
             String targetToken = EncryptUtils.md5(tmpStr);
             header.put("sign", targetToken);
             String response = HttpClientUtil.doPost(url, header, param);

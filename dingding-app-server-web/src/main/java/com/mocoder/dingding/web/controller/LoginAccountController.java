@@ -67,4 +67,11 @@ public class LoginAccountController {
         CommonResponse<LoginAccount> response = loginAccountService.logoutAccount(body, session);
         return response;
     }
+
+    @RequestMapping("updateInfo")
+    @ResponseBody
+    public CommonResponse<LoginAccount> updateInfo(@ValidateBody(requiredAttrs = {"mobile","verifyCode"}) LoginAccountRequest body, RedisRequestSession session,CommonRequest request) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        CommonResponse<LoginAccount> response = loginAccountService.updateAccount(body, session,request);
+        return response;
+    }
 }

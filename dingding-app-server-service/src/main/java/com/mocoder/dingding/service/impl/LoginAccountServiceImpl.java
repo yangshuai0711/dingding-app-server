@@ -13,6 +13,7 @@ import com.mocoder.dingding.vo.CommonRequest;
 import com.mocoder.dingding.vo.CommonResponse;
 import com.mocoder.dingding.vo.LoginAccountRequest;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -127,7 +128,9 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             response.resolveErrorInfo(ErrorTypeEnum.REG_DUPLICATE_ERROR);
             return response;
         }
-        account.setPassword(EncryptUtils.md5(body.getPassword()));
+        if(StringUtils.isNotBlank(body.getPassword())) {
+            account.setPassword(EncryptUtils.md5(body.getPassword()));
+        }
         loginAccountMapper.insertSelective(account);
         account.setPassword(null);
         session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, account);
@@ -201,5 +204,56 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         response.setCode("0");
         response.setMsg("注销成功");
         return response;
+    }
+
+    @Override
+    public CommonResponse<LoginAccount> updateAccount(LoginAccountRequest body, RedisRequestSession session, CommonRequest request) {
+        CommonResponse<LoginAccount> response = new CommonResponse<LoginAccount>();
+        String code = session.getAttribute(SessionKeyConstant.VERIFY_CODE_KEY, String.class);
+        if (!body.getVerifyCode().equals(code)) {
+            response.resolveErrorInfo(ErrorTypeEnum.VALIDATE_CODE_ERROR);
+            return response;
+        }
+        LoginAccount login = session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, LoginAccount.class);
+        if (login == null||!login.getMobile().equals(body.getMobile())) {
+            response.resolveErrorInfo(ErrorTypeEnum.USER_OPERATE_NOT_PERMIT);
+            return response;
+        }
+        LoginAccount account = new LoginAccount();
+        try {
+            PropertyUtils.copyProperties(account, body);
+        } catch (Exception e) {
+            response.resolveErrorInfo(ErrorTypeEnum.SYSTEM_EXCEPTION);
+        }
+        if(StringUtils.isNotBlank(body.getPassword())) {
+            account.setPassword(EncryptUtils.md5(body.getPassword()));
+        }
+        account.setMobile(null);
+        LoginAccountCriteria example = new LoginAccountCriteria();
+        example.createCriteria().andMobileEqualTo(account.getMobile());
+        loginAccountMapper.updateByExampleSelective(account, example);
+        account.setPassword(null);
+        account.setMobile(body.getMobile());
+        session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, account);
+        session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
+        response.setData(account);
+        response.setCode("0");
+        response.setMsg("修改成功");
+        return response;
+    }
+
+    @Override
+    public CommonResponse<String> getImportantOperationVerifyCode(String mobile, RedisRequestSession session) {
+        CommonResponse<String> response = new CommonResponse<String>();
+        Random random = new Random();
+        String code = String.valueOf(1000 + random.nextInt(8999));
+        session.setAttribute(SessionKeyConstant.VERIFY_CODE_KEY, code);
+        if (smsServiceWrap.sentRegValidCodeSms(mobile, code)) {
+            response.setCode("0");
+            return response;
+        } else {
+            response.resolveErrorInfo(ErrorTypeEnum.SMS_SEND_ERROR);
+            return response;
+        }
     }
 }
