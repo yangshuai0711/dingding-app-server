@@ -12,6 +12,8 @@ public class LoginAccountRequest implements Serializable {
 
     private String verifyCode;
 
+    private String oldPassword;
+
     private static final long serialVersionUID = 1L;
 
     public String getMobile() {
@@ -44,5 +46,13 @@ public class LoginAccountRequest implements Serializable {
 
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 }

@@ -87,7 +87,11 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         if (verifyCode != null && verifyCode.equals(code)) {
             LoginAccount record = queryLoginAccounts(mobile);
             if (record != null) {
-                record.setPassword(null);
+                if(record.getPassword()!=null){
+                    record.setPassword("Y");
+                }else{
+                    record.setPassword("N");
+                }
                 response.setData(record);
                 response.setCode("0");
                 response.setMsg("登录成功");
@@ -132,7 +136,11 @@ public class LoginAccountServiceImpl implements LoginAccountService {
             account.setPassword(EncryptUtils.md5(body.getPassword()));
         }
         loginAccountMapper.insertSelective(account);
-        account.setPassword(null);
+        if(account.getPassword()!=null){
+            account.setPassword("Y");
+        }else{
+            account.setPassword("N");
+        }
         session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, account);
         session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
         session.saveUserSessionId(request, account.getMobile());
@@ -209,16 +217,20 @@ public class LoginAccountServiceImpl implements LoginAccountService {
     @Override
     public CommonResponse<LoginAccount> updateAccount(LoginAccountRequest body, RedisRequestSession session, CommonRequest request) {
         CommonResponse<LoginAccount> response = new CommonResponse<LoginAccount>();
-        String code = session.getAttribute(SessionKeyConstant.VERIFY_CODE_KEY, String.class);
-        if (!body.getVerifyCode().equals(code)) {
-            response.resolveErrorInfo(ErrorTypeEnum.VALIDATE_CODE_ERROR);
-            return response;
-        }
+//        String code = session.getAttribute(SessionKeyConstant.VERIFY_CODE_KEY, String.class);
+//        if (!body.getVerifyCode().equals(code)) {
+//            response.resolveErrorInfo(ErrorTypeEnum.VALIDATE_CODE_ERROR);
+//            return response;
+//        }
+        //用户权限验证
         LoginAccount login = session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, LoginAccount.class);
         if (login == null||!login.getMobile().equals(body.getMobile())) {
             response.resolveErrorInfo(ErrorTypeEnum.USER_OPERATE_NOT_PERMIT);
             return response;
         }
+        LoginAccountCriteria example = new LoginAccountCriteria();
+        example.createCriteria().andMobileEqualTo(body.getMobile());
+        LoginAccount record = loginAccountMapper.selectByExample(example).get(0);
         LoginAccount account = new LoginAccount();
         try {
             PropertyUtils.copyProperties(account, body);
@@ -227,16 +239,24 @@ public class LoginAccountServiceImpl implements LoginAccountService {
         }
         if(StringUtils.isNotBlank(body.getPassword())) {
             account.setPassword(EncryptUtils.md5(body.getPassword()));
+            if(StringUtils.isNotBlank(record.getPassword())&&(StringUtils.isBlank(body.getOldPassword())||!record.getPassword().equals(EncryptUtils.md5(body.getOldPassword())))){
+                response.setCode("50");
+                response.setMsg("当前密码输入不正确");
+                return response;
+            }
         }
         account.setMobile(null);
-        LoginAccountCriteria example = new LoginAccountCriteria();
-        example.createCriteria().andMobileEqualTo(account.getMobile());
+        account.setId(null);
         loginAccountMapper.updateByExampleSelective(account, example);
-        account.setPassword(null);
+        record = loginAccountMapper.selectByExample(example).get(0);
+        if(record.getPassword()!=null) {
+            record.setPassword("Y");
+        }else{
+            record.setPassword("N");
+        }
         account.setMobile(body.getMobile());
-        session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, account);
-        session.removeAttribute(SessionKeyConstant.VERIFY_CODE_KEY);
-        response.setData(account);
+        session.setAttribute(SessionKeyConstant.USER_LOGIN_KEY, record);
+        response.setData(record);
         response.setCode("0");
         response.setMsg("修改成功");
         return response;

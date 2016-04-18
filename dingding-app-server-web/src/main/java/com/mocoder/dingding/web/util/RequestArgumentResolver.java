@@ -51,7 +51,7 @@ public class RequestArgumentResolver implements HandlerMethodArgumentResolver {
             if (StringUtils.isNotBlank(paramName) && StringUtils.isNotBlank(webRequest.getParameter(paramName))) {
                 String encBody = webRequest.getParameter(paramName);
                 String bodyString = getDecodedBody(encBody, algorithms);
-                Object obj = null;
+                Object obj;
                 try {
                     obj = JsonUtil.toObject(bodyString, methodParameter.getParameterType());
                 } catch (IOException e) {
