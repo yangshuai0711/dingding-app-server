@@ -1,11 +1,8 @@
 package com.mocoder.dingding.utils.bean;
 
 import com.mocoder.dingding.constants.RedisKeyConstant;
-import com.mocoder.dingding.utils.bean.TypeRef;
-import com.mocoder.dingding.utils.spring.SpringContextHolder;
 import com.mocoder.dingding.utils.web.RedisUtil;
 import com.mocoder.dingding.vo.CommonRequest;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,16 +33,16 @@ public class RedisRequestSession {
         this.sessionId = sessionId;
     }
 
-    public Map<String, Object> getAttributes() {
-        return RedisUtil.hGetAllObj(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX, new TypeRef<Object>(),expireDelay*60);
+    public Map<String, String> getAttributes() {
+        return RedisUtil.hGetAllString(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX,expireDelay*60);
     }
 
-    public <T> T getAttribute(String key,Class<T> tClass){
-        return RedisUtil.hGetObj(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX + sessionId,key, new TypeRef<T>(),expireDelay*60);
+    public String getAttribute(String key){
+        return RedisUtil.hGetString(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX + sessionId,key,expireDelay*60);
     }
 
-    public void setAttribute(String key,Object obj){
-        RedisUtil.hSetObj(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+sessionId,key, obj,expireDelay*60);
+    public void setAttribute(String key,String obj){
+        RedisUtil.hSetString(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+sessionId,key,obj,expireDelay*60);
     }
 
     public void removeAttribute(String key){
@@ -61,7 +58,7 @@ public class RedisRequestSession {
         RedisUtil.del(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+sessionId);
     }
 
-    public void cleanUserAllDeviceSession(String userId){
+    public static void cleanUserAllDeviceSession(String userId){
         Map<String,String> sessionIdMap = RedisUtil.hGetAllString(RedisKeyConstant.USER_REQUEST_SESSION_INFO_KEY_PREFIX + userId, null);
         for(String value:sessionIdMap.values()){
             RedisUtil.del(RedisKeyConstant.REQUEST_SESSION_KEY_PREFIX+value);

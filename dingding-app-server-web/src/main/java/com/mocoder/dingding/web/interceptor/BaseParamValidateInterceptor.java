@@ -108,7 +108,7 @@ public class BaseParamValidateInterceptor extends ValidatorInterceptor {
             request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION,session);
             return true;
         }
-        if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, Object.class)!=null){
+        if(session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY)!=null){
             request.setAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION,session);
             return true;
         }

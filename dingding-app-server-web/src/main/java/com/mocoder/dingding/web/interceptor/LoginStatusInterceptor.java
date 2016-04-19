@@ -3,7 +3,6 @@ package com.mocoder.dingding.web.interceptor;
 import com.mocoder.dingding.constants.RequestAttributeKeyConstant;
 import com.mocoder.dingding.constants.SessionKeyConstant;
 import com.mocoder.dingding.enums.ErrorTypeEnum;
-import com.mocoder.dingding.model.LoginAccount;
 import com.mocoder.dingding.utils.bean.RedisRequestSession;
 import com.mocoder.dingding.utils.web.WebUtil;
 import com.mocoder.dingding.vo.CommonResponse;
@@ -25,7 +24,7 @@ public class LoginStatusInterceptor extends EncryptParameterValidateInterceptor 
         }
         RedisRequestSession session = (RedisRequestSession) request.getAttribute(RequestAttributeKeyConstant.REQUEST_ATTRIBUTE_KEY_REQUEST_SESSION);
         CommonResponse resp = new CommonResponse();
-        if (session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY, LoginAccount.class) == null) {
+        if (session.getAttribute(SessionKeyConstant.USER_LOGIN_KEY) == null) {
             resp.resolveErrorInfo(ErrorTypeEnum.NOT_LOGIN);
             try {
                 WebUtil.writeResponse(response, resp);
