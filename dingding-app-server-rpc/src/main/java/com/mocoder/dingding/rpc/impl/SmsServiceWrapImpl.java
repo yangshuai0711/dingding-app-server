@@ -52,6 +52,11 @@ public class SmsServiceWrapImpl implements SmsServiceWrap {
         return sentValidCodeSms(mobileNum,validCode,SMS_SIGH_NAME,SMS_TAMPLATE_REG_VALIDATE_CODE,"注册验证");
     }
 
+    @Override
+    public boolean sentRegValidCodeSms(String mobileNum, String validCode, String operate) {
+        return sentValidCodeSms(mobileNum,validCode,SMS_SIGH_NAME,SMS_TAMPLATE_REG_VALIDATE_CODE,"重要操作");
+    }
+
     /**
      * 发送验证码
      * @param mobileNum 手机号
@@ -68,7 +73,7 @@ public class SmsServiceWrapImpl implements SmsServiceWrap {
         req.setSmsParamString("{\"code\":\"" + validCode + "\",\"product\":\" "+SMS_PRODUCT_NAME+" \"}");
         req.setRecNum(mobileNum);
         req.setSmsTemplateCode(templateNum);
-        AlibabaAliqinFcSmsNumSendResponse rsp = null;
+        AlibabaAliqinFcSmsNumSendResponse rsp ;
         try {
             rsp = getSmsClient().execute(req);
             if (rsp==null){
@@ -84,7 +89,7 @@ public class SmsServiceWrapImpl implements SmsServiceWrap {
             log.error("验证码-"+opeateName+"-失败:短信发送异常,mobile:"+mobileNum+" code:"+validCode, e);
         }
 
-        log.info("验证码-"+opeateName+":发送成功，mobile:{} validCode{}",mobileNum,validCode);
+        log.info("验证码-"+opeateName+":发送成功，mobile:{} validCode:{}",mobileNum,validCode);
         return true;
     }
 }

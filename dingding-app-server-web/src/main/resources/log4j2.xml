@@ -30,20 +30,10 @@
             </Policies>
             <DefaultRolloverStrategy max="5"/>
         </RollingRandomAccessFile>
-        <RollingRandomAccessFile bufferSize="1024" name="proj-output" fileName="${var.log.path.dir}/proj-output.log"
-                                 filePattern="${var.log.path.dir}/proj-output.log.%i">
-            <PatternLayout>
-                <Pattern>${var.output.pattern}</Pattern>
-            </PatternLayout>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="500MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="4"/>
-        </RollingRandomAccessFile>
     </Appenders>
 
     <Loggers>
-        <AsyncRoot level="debug" includeLocation="true">
+        <AsyncRoot level="ERROR" includeLocation="true">
             <AppenderRef ref="stdout"/>
         </AsyncRoot>
         <!-- log4spring -->
@@ -68,7 +58,7 @@
             <AppenderRef ref="framework-output"/>
         </AsyncLogger>
         <!-- project loggers begin -->
-        <AsyncLogger name="com.mocoder.dingding.web" level="${var.log.level}" includeLocation="true" additivity="true">
+        <AsyncLogger name="com.mocoder.dingding" level="${var.log.level}" includeLocation="true" additivity="true">
             <AppenderRef ref="proj-output"/>
         </AsyncLogger>
         <!-- project loggers end -->

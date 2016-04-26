@@ -65,4 +65,19 @@ public interface LoginAccountService {
      * @return
      */
     CommonResponse<LoginAccount> logoutAccount(LoginAccountRequest body, RedisRequestSession session);
+    /**
+     * 更新账户信息
+     * @param account
+     * @param session
+     * @param request
+     * @return
+     */
+    public CommonResponse<LoginAccount> updateAccount(LoginAccountRequest account, RedisRequestSession session, CommonRequest request);
+    /**
+     * 获取重要操作验证码
+     * @param mobile
+     * @param session
+     * @return
+     */
+    public CommonResponse<String> getImportantOperationVerifyCode(String mobile, RedisRequestSession session);
 }

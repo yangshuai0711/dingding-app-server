@@ -492,9 +492,9 @@
             </activation>
         </profile>
         <profile>
-            <id>preproduction</id>
+            <id>test</id>
             <properties>
-                <env>preproduction</env>
+                <env>test</env>
             </properties>
         </profile>
         <profile>

@@ -6,4 +6,5 @@ package com.mocoder.dingding.constants;
 public class SessionKeyConstant {
     public static final String USER_LOGIN_KEY = "USER_LOGIN_KEY";
     public static final String VERIFY_CODE_KEY = "VERIFY_CODE_KEY";
+    public static final String LOGIN_TYPE_KEY = "USER_LOGIN_TYPE_KEY";
 }
