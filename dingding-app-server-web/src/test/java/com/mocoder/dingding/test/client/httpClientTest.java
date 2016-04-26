@@ -28,7 +28,7 @@ public class httpClientTest {
 
 //    private static final String HOST = "http://mocoder.com:8080/dingding-app-server";
 
-    private static final String HOST = "http://localhost:8080";
+    private static final String HOST = "http://localhost:8080/dingding";
     @Test
     public void testGetLoginCode() {
         String sessionId = getSessionId();
